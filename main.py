@@ -1,12 +1,13 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 # path = 'C:/Users/blue/Downloads/HalteEinAus.att'
 # path = 'C:/Users/blue/Downloads/fpf_roh.att'
 path = 'C:/Users/blue/Downloads/EinsteigerVSySDiff.att'
 
 def attribut2dataframe(attfile):
-    ret_att = pd.read_csv(attfile, skiprows=findFirstLine(attfile), sep=';', encoding='ansi')
+    ret_att = pd.read_csv(attfile, skiprows=findFirstLine(attfile), sep=';', encoding='ansi', index_col='$STOP:NO')
     # print(attfile)
     return ret_att
 
@@ -41,31 +42,42 @@ df = attribut2dataframe(path)
 
 print(df.head())
 for col in df.columns:
-    print(col)
+    print(col, type(col))
 
 
 # select specific row and relevant columns for bar plot
 
-to_bar_group1 = df.loc[df['$STOP:NO'] == 1877].iloc[:, range(2, 12)]
+# to_bar_group1 = df.loc[df['$STOP:NO'] == 1877]# .iloc[:, range(2, 12)]
+to_bar_group1 = df.loc[[1877, 2513]]#.drop(['PASSBOARD(AP)', 'PASSBOARD_TSYS(U,AP)']).copy()
+#pd.set_option('max_columns', None)
 
-print(to_bar_group1, type(to_bar_group1))
+
+print('---begin to bar---')
+print(to_bar_group1)
+print('---end to bar---')
 
 
-# plot all stuff as stacks
+#fig = plt.figure()
 
-plt.style.use('ggplot')
+#ax2 = fig.add_subplot(111)
 
-fig, ax = plt.subplots()
-# df[['a', 'c']].plot.bar(stacked=True, width=0.1, position=1.5, colormap="bwr", ax=ax, alpha=0.7)
-to_bar_group1.iloc[:, range(0, 3)].plot.bar(stacked=True, width=0.1, position=1.5, colormap="bwr", ax=ax, alpha=0.7)
-# df[['b', 'd']].plot.bar(stacked=True, width=0.1, position=-0.5, colormap="RdGy", ax=ax, alpha=0.7)
-to_bar_group1.iloc[:, range(4, 6)].plot.bar(stacked=True, width=0.1, position=-0.5, colormap="RdGy", ax=ax, alpha=0.7)
-# df[['a', 'd']].plot.bar(stacked=True, width=0.1, position=0.5, colormap="BrBG", ax=ax, alpha=0.7)
-to_bar_group1.iloc[:, range(7, 8)].plot.bar(stacked=True, width=0.1, position=0.5, colormap="BrBG", ax=ax, alpha=0.7)
-plt.legend(loc="upper center")
-# plt.show()
+fig, ax2 = plt.subplots()
 
-# ax = to_bar_group1.plot.bar(stacked=True)
-# ax.plot()
-fig = ax.get_figure()
-fig.savefig('figure.png')
+to_bar_group1.plot.bar(y=['PASSBOARD_TSYS(B,AP)', 'PASSBOARD_TSYS(F,AP)', 'PASSBOARD_TSYS(ICE,AP)', 'PASSBOARD_TSYS(RB,AP)', 'PASSBOARD_TSYS(S,AP)', 'PASSBOARD_TSYS(SCHIFF,AP)', 'PASSBOARD_TSYS(T,AP)', 'PASSBOARD_TSYS(U,AP)'],
+                       ax=ax2, width=0.1, position=0, stacked = True)
+
+to_bar_group1.plot.bar(x='NAME', y='NEU_EINST_N14', ax=ax2, width=0.1, position=1)
+
+to_bar_group1.plot.bar(x='NAME', y='PASSBOARD_TSYS(ICE,AP)', ax=ax2, width=0.1, position=1, edgecolor = "black", linewidth=2.5, fc="none")
+
+plt.title('Boarding per Mode of Transport at Different Stops')
+plt.ylabel('Passengers [n]')
+plt.xlabel('Station Name')
+fig.autofmt_xdate()
+
+ax2.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+
+plt.tight_layout()
+
+fig = ax2.get_figure()
+fig.savefig('figure.pdf')#, bbox_inches='tight')
