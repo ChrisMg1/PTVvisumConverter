@@ -64,13 +64,13 @@ print('---end to bar---')
 fig, ax2 = plt.subplots()
 
 to_bar_group1.plot.bar(y=['PASSBOARD_TSYS(B,AP)', 'PASSBOARD_TSYS(F,AP)', 'PASSBOARD_TSYS(ICE,AP)', 'PASSBOARD_TSYS(RB,AP)', 'PASSBOARD_TSYS(S,AP)', 'PASSBOARD_TSYS(SCHIFF,AP)', 'PASSBOARD_TSYS(T,AP)', 'PASSBOARD_TSYS(U,AP)'],
-                       ax=ax2, width=0.1, position=0, stacked = True)
+                       ax=ax2, width=0.1, position=0, stacked=True)
 
 to_bar_group1.plot.bar(x='NAME', y='NEU_EINST_N14', ax=ax2, width=0.1, position=1)
 
 to_bar_group1.plot.bar(x='NAME', y='PASSBOARD_TSYS(ICE,AP)', ax=ax2, width=0.1, position=1, edgecolor = "black", linewidth=2.5, fc="none")
-
-plt.title('Boarding per Mode of Transport at Different Stops')
+ax2.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.2)
+plt.title('Boardings per Mode of Transport at Different Stops')
 plt.ylabel('Passengers [n]')
 plt.xlabel('Station Name')
 fig.autofmt_xdate()
