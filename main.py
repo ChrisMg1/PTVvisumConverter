@@ -37,23 +37,17 @@ def findFirstLine(arrfile):
 
 df = attribut2dataframe(path)
 
-# ax = df.plot.bar(x='lab', y='val', rot=0)
-
-
-print(df.head())
 for col in df.columns:
     print(col, type(col))
 
-
 # select specific row and relevant columns for bar plot
 
-# to_bar_group1 = df.loc[df['$STOP:NO'] == 1877]# .iloc[:, range(2, 12)]
-to_bar_group1 = df.loc[[1877, 2513]]#.drop(['PASSBOARD(AP)', 'PASSBOARD_TSYS(U,AP)']).copy()
-#pd.set_option('max_columns', None)
-
+to_bar_group1 = df.loc[[1877, 2513]]
 
 print('---begin to bar---')
 print(to_bar_group1)
+
+to_bar_group1['SPNV'] = to_bar_group1['PASSBOARD_TSYS(RB,AP)'] + to_bar_group1['PASSBOARD_TSYS(S,AP)']
 print('---end to bar---')
 
 
@@ -63,21 +57,22 @@ print('---end to bar---')
 
 fig, ax2 = plt.subplots()
 
-to_bar_group1.plot.bar(y=['PASSBOARD_TSYS(B,AP)', 'PASSBOARD_TSYS(F,AP)', 'PASSBOARD_TSYS(ICE,AP)', 'PASSBOARD_TSYS(RB,AP)', 'PASSBOARD_TSYS(S,AP)', 'PASSBOARD_TSYS(SCHIFF,AP)', 'PASSBOARD_TSYS(T,AP)', 'PASSBOARD_TSYS(U,AP)'],
+to_bar_group1.plot.bar(y=['PASSBOARD_TSYS(RB,AP)', 'PASSBOARD_TSYS(S,AP)', 'PASSBOARD_TSYS(B,AP)', 'PASSBOARD_TSYS(F,AP)', 'PASSBOARD_TSYS(ICE,AP)', 'PASSBOARD_TSYS(SCHIFF,AP)', 'PASSBOARD_TSYS(T,AP)', 'PASSBOARD_TSYS(U,AP)'],
                        ax=ax2, width=0.1, position=0, stacked=True)
 
 to_bar_group1.plot.bar(x='NAME', y='NEU_EINST_N14', ax=ax2, width=0.1, position=1)
 
-to_bar_group1.plot.bar(x='NAME', y='PASSBOARD_TSYS(ICE,AP)', ax=ax2, width=0.1, position=1, edgecolor = "black", linewidth=2.5, fc="none")
+to_bar_group1.plot.bar(x='NAME', y='SPNV', ax=ax2, width=0.1, position=0, edgecolor = "black", linewidth=2.5, fc="none")
 ax2.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.2)
 plt.title('Boardings per Mode of Transport at Different Stops')
 plt.ylabel('Passengers [n]')
 plt.xlabel('Station Name')
 fig.autofmt_xdate()
 
-ax2.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+ax2.legend(loc='upper left', bbox_to_anchor=(1, 0.5))
 
 plt.tight_layout()
 
 fig = ax2.get_figure()
-fig.savefig('figure.pdf')#, bbox_inches='tight')
+fig.savefig('figure.png')#, bbox_inches='tight')
+
