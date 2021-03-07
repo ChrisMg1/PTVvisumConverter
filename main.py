@@ -36,6 +36,27 @@ def findFirstLine(arrfile):
 
 
 df = attribut2dataframe(path)
+print(df)
+
+df = df[df['B_BAYERN']==1]
+
+
+
+df.rename(columns={'NEU_EINST_N14': 'Calibration Count',
+                   'PASSBOARD_TSYS(B,AP)': 'Bus',
+                   'PASSBOARD_TSYS(F,AP)': 'Walk/Bike',
+                   'PASSBOARD_TSYS(ICE,AP)': 'ICE',
+                   'PASSBOARD_TSYS(RB,AP)': 'Regional Train',
+                   'PASSBOARD_TSYS(S,AP)': 'S-Bahn',
+                   'PASSBOARD_TSYS(SCHIFF,AP)': 'Boat',
+                   'PASSBOARD_TSYS(T,AP)': 'Tram',
+                   'PASSBOARD_TSYS(U,AP)': 'Metro'
+                   }, inplace=True)
+print(df)
+df['SPNV'] = df['Regional Train'] + df['S-Bahn']
+
+# todo: GEH value
+df['Accuracy'] = df['SPNV'] - df['Calibration Count']
 
 for col in df.columns:
     print(col, type(col))
@@ -51,7 +72,8 @@ to_bar_group1 = df.loc[top_stations]
 print('---begin to bar---')
 print(to_bar_group1)
 
-to_bar_group1['SPNV'] = to_bar_group1['PASSBOARD_TSYS(RB,AP)'] + to_bar_group1['PASSBOARD_TSYS(S,AP)']
+
+
 print('---end to bar---')
 
 
@@ -61,16 +83,31 @@ print('---end to bar---')
 
 fig, ax2 = plt.subplots()
 
-to_bar_group1.plot.bar(y=['PASSBOARD_TSYS(RB,AP)', 'PASSBOARD_TSYS(S,AP)', 'PASSBOARD_TSYS(B,AP)', 'PASSBOARD_TSYS(F,AP)', 'PASSBOARD_TSYS(ICE,AP)', 'PASSBOARD_TSYS(SCHIFF,AP)', 'PASSBOARD_TSYS(T,AP)', 'PASSBOARD_TSYS(U,AP)'],
-                       ax=ax2, width=0.1, position=0, stacked=True)
+# see: https://matplotlib.org/3.1.0/tutorials/colors/colormaps.html
+colormap = plt.cm.get_cmap('tab20', 8)
+# viridis = ['red', 'green', 'blue']
+# print(colormap.colors, type(colormap.colors))
 
-to_bar_group1.plot.bar(x='NAME', y='NEU_EINST_N14', ax=ax2, width=0.1, position=1)
+# see: https://stackoverflow.com/questions/14088687/how-to-change-plot-background-color
+ax2.set_facecolor('whitesmoke')
 
-to_bar_group1.plot.bar(x='NAME', y='SPNV', ax=ax2, width=0.1, position=0, edgecolor = "black", linewidth=2.5, fc="none")
+# pal1 = ["#9b59b6", "#e74c3c", "#34495e", "#2ecc71", "#9b59b6", "#e74c3c", "#34495e", "#2ecc71"]
+to_bar_group1.plot.bar(y=['S-Bahn', 'Regional Train', 'ICE', 'Tram', 'Metro', 'Bus', 'Walk/Bike', 'Boat'],
+                       ax=ax2, width=0.45, position=0, color=colormap.colors, stacked=True)
+
+to_bar_group1.plot.bar(x='NAME', y='Calibration Count', ax=ax2, width=0.45, position=1, color='gray')
+
+
+
+
+# activate for frame SPNV
+# to_bar_group1.plot.bar(x='NAME', y='SPNV', ax=ax2, width=0.1, position=0, edgecolor = "black", linewidth=2.5, fc="none")
+
 ax2.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.2)
 plt.title('Boardings per Mode of Transport at Different Stops')
 plt.ylabel('Passengers [n]')
 plt.xlabel('Station Name')
+plt.xticks(fontsize=8)
 fig.autofmt_xdate()
 
 ax2.legend(loc='upper left', bbox_to_anchor=(1, 0.5))
@@ -79,4 +116,17 @@ plt.tight_layout()
 
 fig = ax2.get_figure()
 fig.savefig('figure.png')#, bbox_inches='tight')
+plt.close()
 
+plt.clf()
+
+fig2, ax3 = plt.subplots()
+df['Accuracy'].hist(bins=50, ax=ax3)
+
+# print(df['Accuracy'].astype('int'))
+
+fig2 = ax3.get_figure()
+fig2.savefig('hist.png')
+plt.close()
+
+plt.clf()
