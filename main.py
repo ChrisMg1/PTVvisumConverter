@@ -42,7 +42,11 @@ for col in df.columns:
 
 # select specific row and relevant columns for bar plot
 
-to_bar_group1 = df.loc[[1877, 2513]]
+top_stations = np.array(df['PASSBOARD(AP)'].nlargest(10).index).tolist()
+
+to_bar_group1 = df.loc[top_stations]
+
+
 
 print('---begin to bar---')
 print(to_bar_group1)
