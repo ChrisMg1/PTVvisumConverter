@@ -35,6 +35,13 @@ def findFirstLine(arrfile):
         return line_count
 
 
+def GEH(model, measure):
+    return np.sqrt( ( 2 * np.power((model-measure), 2) ) / (model + measure) )
+
+print('GEH: ', GEH(1,1))
+
+print(np.power((2+2), 2,))
+
 df = attribut2dataframe(path)
 print(df)
 
@@ -56,7 +63,8 @@ print(df)
 df['SPNV'] = df['Regional Train'] + df['S-Bahn']
 
 # todo: GEH value
-df['Accuracy'] = df['SPNV'] - df['Calibration Count']
+df['Deviation'] = abs(df['SPNV'] - df['Calibration Count'])
+df['GEH'] = GEH(df['SPNV'], df['Calibration Count'])
 
 for col in df.columns:
     print(col, type(col))
@@ -115,18 +123,45 @@ ax2.legend(loc='upper left', bbox_to_anchor=(1, 0.5))
 plt.tight_layout()
 
 fig = ax2.get_figure()
-fig.savefig('figure.png')#, bbox_inches='tight')
-plt.close()
-
+fig.savefig('Barplot_Boardings.png')#, bbox_inches='tight')
 plt.clf()
 
 fig2, ax3 = plt.subplots()
-df['Accuracy'].hist(bins=50, ax=ax3)
-
-# print(df['Accuracy'].astype('int'))
-
+df['GEH'].hist(bins=50, ax=ax3)
 fig2 = ax3.get_figure()
-fig2.savefig('hist.png')
-plt.close()
-
+plt.title('Counted and Modelled Passengers at Stops')
+plt.ylabel('Frequency')
+plt.xlabel('GEH value')
+fig2.savefig('histogram_GEH.png')
 plt.clf()
+
+fig2, ax3 = plt.subplots()
+df['GEH'].hist(bins=50, ax=ax3)
+fig2 = ax3.get_figure()
+plt.title('Deviation of Counted and Modelled Passengers at Stops')
+plt.ylabel('Frequency')
+plt.xlabel('GEH-weighted Deviation')
+fig2.savefig('histogram_GEH.png')
+plt.clf()
+
+fig2, ax3 = plt.subplots()
+df['Deviation'].hist(bins=50, ax=ax3)
+fig2 = ax3.get_figure()
+plt.title('Deviation of Counted and Modelled Passengers at Stops')
+plt.ylabel('Frequency')
+plt.xlabel('Absolute Deviation')
+fig2.savefig('histogram_abs_deviation.png')
+plt.clf()
+
+fig2, ax3 = plt.subplots()
+df['Calibration Count'].hist(bins=50, ax=ax3)
+fig2 = ax3.get_figure()
+plt.title('Empirical Data')
+plt.ylabel('Frequency')
+plt.xlabel('SPNV Counts')
+fig2.savefig('histogram_SPNV_counts.png')
+plt.clf()
+
+print(df.nlargest(10,'GEH'))
+print(df.nlargest(10,'Calibration Count')[['NAME', 'Calibration Count']])
+print(df.nsmallest(10,'Calibration Count')[['NAME', 'Calibration Count']])
