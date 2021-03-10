@@ -165,3 +165,5 @@ plt.clf()
 print(df.nlargest(10,'GEH'))
 print(df.nlargest(10,'Calibration Count')[['NAME', 'Calibration Count']])
 print(df.nsmallest(10,'Calibration Count')[['NAME', 'Calibration Count']])
+
+#newes version
