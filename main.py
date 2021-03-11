@@ -4,7 +4,7 @@ import numpy as np
 
 # path = 'C:/Users/blue/Downloads/HalteEinAus.att'
 # path = 'C:/Users/blue/Downloads/fpf_roh.att'
-path = 'C:/Users/blue/Downloads/EinsteigerVSySDiff.att'
+path = 'C:/Users/chris/Downloads/EinsteigerVSySDiff.att'
 
 def attribut2dataframe(attfile):
     ret_att = pd.read_csv(attfile, skiprows=findFirstLine(attfile), sep=';', encoding='ansi', index_col='$STOP:NO')
@@ -63,7 +63,7 @@ print(df)
 df['SPNV'] = df['Regional Train'] + df['S-Bahn']
 
 # todo: GEH value
-df['Deviation'] = abs(df['SPNV'] - df['Calibration Count'])
+df['Deviation'] = df['SPNV'] - df['Calibration Count']
 df['GEH'] = GEH(df['SPNV'], df['Calibration Count'])
 
 for col in df.columns:
@@ -136,17 +136,25 @@ fig2.savefig('histogram_GEH.png')
 plt.clf()
 
 fig2, ax3 = plt.subplots()
-df['GEH'].hist(bins=50, ax=ax3)
+df['GEH'].hist(bins=50, ax=ax3, label=r'$\sqrt{\frac{2(model-count)^2}{model+count}}$')
 fig2 = ax3.get_figure()
 plt.title('Deviation of Counted and Modelled Passengers at Stops')
 plt.ylabel('Frequency')
 plt.xlabel('GEH-weighted Deviation')
+ax3.legend(loc='upper right')
 fig2.savefig('histogram_GEH.png')
 plt.clf()
 
+
+abs_limit = max(df["Deviation"].max(), abs(df["Deviation"].min()))
 fig2, ax3 = plt.subplots()
-df['Deviation'].hist(bins=50, ax=ax3)
+df['Deviation'].hist(bins=50, ax=ax3, range=(-abs_limit,abs_limit), label='model - count')
+
+ax3.legend(loc='upper right')
 fig2 = ax3.get_figure()
+
+# ax3.legend('hello')
+
 plt.title('Deviation of Counted and Modelled Passengers at Stops')
 plt.ylabel('Frequency')
 plt.xlabel('Absolute Deviation')
@@ -166,4 +174,6 @@ print(df.nlargest(10,'GEH'))
 print(df.nlargest(10,'Calibration Count')[['NAME', 'Calibration Count']])
 print(df.nsmallest(10,'Calibration Count')[['NAME', 'Calibration Count']])
 
-#newes version
+
+
+#newest version 2.0
