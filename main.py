@@ -4,10 +4,10 @@ import numpy as np
 
 # path = 'C:/Users/blue/Downloads/HalteEinAus.att'
 # path = 'C:/Users/blue/Downloads/fpf_roh.att'
-path = 'C:/Users/chris/Downloads/EinsteigerVSySDiff.att'
+path = 'C:/Users/chris/proj-lvm_files/EinsteigerVSySDiff.att'
 
 def attribut2dataframe(attfile):
-    ret_att = pd.read_csv(attfile, skiprows=findFirstLine(attfile), sep=';', encoding='ansi', index_col='$STOP:NO')
+    ret_att = pd.read_csv(attfile, skiprows=findFirstLine(attfile), sep=';', encoding='ansi', index_col=0)#'$STOP:NO')
     # print(attfile)
     return ret_att
 
