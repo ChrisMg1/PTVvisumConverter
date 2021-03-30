@@ -7,6 +7,7 @@ Created on Sun Mar 28 12:27:38 2021
 import matplotlib.pyplot as plt
 from main import attribut2dataframe
 import numpy as np
+#from cycler import cycler
 
 att_file = 'C:/Users/chris/proj-lvm_files/Strecken_UAM.att'
 # path = 'C:/Users/chris/proj-lvm_files/EinsteigerVSySDiff.att'
@@ -62,11 +63,26 @@ plt.xlabel('Fare: Added Fixed Costs [€]')
 plt.savefig('boxplot_weighted_distance_TEMP.png')
 plt.clf()
 
-first_row = df['0_w'][:1]
 
-print(first_row, type(first_row))
+value_cols = []
 
-# plt.plot(x='HELLO', y=first_row)
 
-# print(df[['LENGTH_km', '0', '0_w', '100', '100_w']])
+for index, row in df[box_cols].iterrows():
+    # print(row.values.tolist())
+    value_cols.append(row.values.tolist())
+
+n = len(df.index)
+
+fig, ax0 = plt.subplots(nrows=1)
+
+color=iter(plt.cm.rainbow(np.linspace(0,1,n)))
+
+for data in value_cols:
+    c=next(color)
+    plt.plot(box_cols, data, label = 'ggg', c=c)
+
+# ax0.set_prop_cycle
+
+plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05),
+          fancybox=True, shadow=False, ncol=5)  
 
