@@ -9,7 +9,7 @@ from main import attribut2dataframe
 import numpy as np
 #from cycler import cycler
 
-att_file = 'C:/Users/chris/proj-lvm_files/Strecken_UAM.att'
+att_file = 'C:/Users/chris/proj-lvm_files/Strecken_UAM4.att'
 # path = 'C:/Users/chris/proj-lvm_files/EinsteigerVSySDiff.att'
 
 df = attribut2dataframe(att_file)
@@ -29,6 +29,9 @@ df.rename(columns={'CM_UAM_OHNETICKET': 'No Ticket',
                    'LENGTH': 'LENGTH_km'
                    }, inplace=True)
 df['LENGTH_km'] = df['LENGTH_km'].str[:-2].astype(np.double)
+
+df.sort_values(by='No Ticket', ascending=False, inplace=True, kind='quicksort', na_position='last')
+
 
 box_cols = ['No Ticket', '0', '50', '100', '500', '10000']
 
@@ -50,10 +53,7 @@ for my_col in box_cols:
     df[new_col_name] = ( (df[my_col] * df['LENGTH_km']) / df['LENGTH_km'].sum() )
     df[new_col_sum] = df[my_col].sum() 
 
-print(df[['LENGTH_km', '0', '0_w', '100', '100_w']])
 
-# print(new_box_cols)
-# print(list(df.columns))
 
 
 df.boxplot(column = new_box_cols)
@@ -65,11 +65,21 @@ plt.clf()
 
 
 value_cols = []
+edge_names = []
+
 
 
 for index, row in df[box_cols].iterrows():
-    # print(row.values.tolist())
+    # print(row)
     value_cols.append(row.values.tolist())
+    
+    
+# todo: Nur einmal iterieren!!
+
+for index, row in df[['NAME']].iterrows():
+    print(row.to_numpy()[0])
+    edge_names.append(row.to_numpy()[0])
+    
 
 n = len(df.index)
 
@@ -77,12 +87,17 @@ fig, ax0 = plt.subplots(nrows=1)
 
 color=iter(plt.cm.rainbow(np.linspace(0,1,n)))
 
-for data in value_cols:
+for data in zip(value_cols, edge_names):
     c=next(color)
-    plt.plot(box_cols, data, label = 'ggg', c=c)
+    plt.plot(box_cols, data[0], label = data[1], c=c)
 
 # ax0.set_prop_cycle
 
 plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05),
           fancybox=True, shadow=False, ncol=5)  
+plt.title('Urban Air Mobility Passengers')
+plt.ylabel('Count: Network Passengers [Pax/day]')
+plt.xlabel('Fare: Added Fixed Costs [€]')
 
+#print(list(df.columns))
+print(edge_names)

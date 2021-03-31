@@ -7,7 +7,7 @@ import numpy as np
 path = 'C:/Users/chris/proj-lvm_files/EinsteigerVSySDiff.att'
 
 def attribut2dataframe(attfile):
-    ret_att = pd.read_csv(attfile, skiprows=findFirstLine(attfile), sep=';', encoding='ansi', index_col=0)#'$STOP:NO')
+    ret_att = pd.read_csv(attfile, skiprows=findFirstLine(attfile), sep=';', encoding='ansi', index_col=[0,1,2])#'$STOP:NO')
     # print(attfile)
     return ret_att
 
