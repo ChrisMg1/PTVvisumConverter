@@ -9,7 +9,8 @@ from main import attribut2dataframe
 import numpy as np
 #from cycler import cycler
 
-att_file = 'C:/Users/chris/proj-lvm_files/Strecken_UAM4.att'
+att_file = 'C:/Users/chris/proj-lvm_files/Strecken_UAM_v2.att'
+# att_file = 'C:/Users/chris/proj-lvm_files/Strecken_UAM4.att'
 # path = 'C:/Users/chris/proj-lvm_files/EinsteigerVSySDiff.att'
 
 df = attribut2dataframe(att_file)
@@ -20,26 +21,30 @@ df = df[df['TSYSSET']=='UAM200']
 
 
 
-df.rename(columns={'CM_UAM_OHNETICKET': 'No Ticket',
-                   'CM_UAM_NULLFALL_0EURO': '0',
-                   'CM_UAM_50EURO': '50',
-                   'CM_UAM_100EURO': '100',
-                   'CM_UAM_500EURO': '500',
-                   'CM_UAM_10000EURO': '10000',
+df.rename(columns={#'CM_UAM_OHNETICKET': 'No Ticket',
+                   'CM_UAM_NULLFALL_0EURO_V2': '0',
+                   'CM_UAM_50EURO_V2': '50',
+                   'CM_UAM_100EURO_V2': '100',
+                   'CM_UAM_250EURO_V2': '250',
+                   'CM_UAM_500EURO_V2': '500',
+                   'CM_UAM_10000EURO_V2': '10000',
                    'LENGTH': 'LENGTH_km'
                    }, inplace=True)
-df['LENGTH_km'] = df['LENGTH_km'].str[:-2].astype(np.double)
+#df['LENGTH_km'] = df['LENGTH_km'].str[:-2].astype(np.double)
 
-df.sort_values(by='No Ticket', ascending=False, inplace=True, kind='quicksort', na_position='last')
+df.sort_values(by='0', ascending=False, inplace=True, kind='quicksort', na_position='last')
 
 
-box_cols = ['No Ticket', '0', '50', '100', '500', '10000']
+# box_cols = ['No Ticket', '0', '50', '100', '500', '10000']
+box_cols = ['0', '50', '100', '250', '500', '10000']
 
 df.boxplot(column = box_cols)
 plt.title('Urban Air Mobility Passengers')
 plt.ylabel('Count: Network Passengers [Pax/day]')
 plt.xlabel('Fare: Added Fixed Costs [€]')
-plt.savefig('boxplot.png')
+# plt.grid(b=False)
+plt.savefig('boxplot_PAXvsFARE.svg', bbox_inches="tight")
+plt.savefig('boxplot_PAXvsFARE.pdf', bbox_inches="tight")
 plt.clf()
 
 print(list(df.columns))
@@ -60,7 +65,8 @@ df.boxplot(column = new_box_cols)
 plt.title('Urban Air Mobility Passengers Weighted with Distance')
 plt.ylabel('Count: Network Passengers [Pax/day]')
 plt.xlabel('Fare: Added Fixed Costs [€]')
-plt.savefig('boxplot_weighted_distance_TEMP.png')
+plt.savefig('boxplot_weighted_distance_TEMP.svg', bbox_inches="tight")
+plt.savefig('boxplot_weighted_distance_TEMP.pdf', bbox_inches="tight")
 plt.clf()
 
 
@@ -93,11 +99,15 @@ for data in zip(value_cols, edge_names):
 
 # ax0.set_prop_cycle
 
-plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05),
+plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], 
           fancybox=True, shadow=False, ncol=5)  
 plt.title('Urban Air Mobility Passengers')
 plt.ylabel('Count: Network Passengers [Pax/day]')
 plt.xlabel('Fare: Added Fixed Costs [€]')
+plt.grid(b=True)
+plt.savefig('lineplot_PAXvsFARE.svg', bbox_inches="tight")
+plt.savefig('lineplot_PAXvsFARE.pdf', bbox_inches="tight")
+plt.clf()
 
 #print(list(df.columns))
 print(edge_names)
