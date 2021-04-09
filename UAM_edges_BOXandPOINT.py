@@ -5,7 +5,7 @@ Created on Sun Mar 28 12:27:38 2021
 @author: chris
 """
 import matplotlib.pyplot as plt
-from main import attribut2dataframe
+from main import attribut2dataframe, cmap1
 import numpy as np
 #from cycler import cycler
 
@@ -16,10 +16,6 @@ att_file = 'C:/Users/chris/proj-lvm_files/Strecken_UAM_v2.att'
 df = attribut2dataframe(att_file, [0, 1, 2])
 
 df = df[df['TSYSSET']=='UAM200']
-
-
-
-
 
 df.rename(columns={#'CM_UAM_OHNETICKET': 'No Ticket',
                    'CM_UAM_NULLFALL_0EURO_V2': '0',
@@ -40,11 +36,11 @@ box_cols = ['0', '50', '100', '250', '500', '10000']
 
 df.boxplot(column = box_cols)
 plt.title('Urban Air Mobility Passengers')
-plt.ylabel('Count: Network Passengers [Pax/day]')
-plt.xlabel('Fare: Added Fixed Costs [€]')
+plt.ylabel('Passengers on Link [Pax/day]')
+plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 # plt.grid(b=False)
-plt.savefig('boxplot_PAXvsFARE.svg', bbox_inches="tight")
-plt.savefig('boxplot_PAXvsFARE.pdf', bbox_inches="tight")
+plt.savefig('plots/boxplot_PAXvsFARE.svg', bbox_inches="tight")
+plt.savefig('plots/boxplot_PAXvsFARE.pdf', bbox_inches="tight")
 plt.clf()
 
 print(list(df.columns))
@@ -63,10 +59,10 @@ for my_col in box_cols:
 
 df.boxplot(column = new_box_cols)
 plt.title('Urban Air Mobility Passengers Weighted with Distance')
-plt.ylabel('Count: Network Passengers [Pax/day]')
-plt.xlabel('Fare: Added Fixed Costs [€]')
-plt.savefig('boxplot_weighted_distance_TEMP.svg', bbox_inches="tight")
-plt.savefig('boxplot_weighted_distance_TEMP.pdf', bbox_inches="tight")
+plt.ylabel('Passengers on Link [Pax/day]')
+plt.xlabel('Added Fixed Costs to UAM Fare [€]')
+plt.savefig('plots/boxplot_weighted_distance_TEMP.svg', bbox_inches="tight")
+plt.savefig('plots/boxplot_weighted_distance_TEMP.pdf', bbox_inches="tight")
 plt.clf()
 
 
@@ -102,11 +98,11 @@ for data in zip(value_cols, edge_names):
 plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], 
           fancybox=True, shadow=False, ncol=5)  
 plt.title('Urban Air Mobility Passengers')
-plt.ylabel('Count: Network Passengers [Pax/day]')
-plt.xlabel('Fare: Added Fixed Costs [€]')
+plt.ylabel('Passengers on Link [Pax/day]')
+plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 plt.grid(b=True)
-plt.savefig('lineplot_PAXvsFARE.svg', bbox_inches="tight")
-plt.savefig('lineplot_PAXvsFARE.pdf', bbox_inches="tight")
+plt.savefig('plots/lineplot_PAXvsFARE.svg', bbox_inches="tight")
+plt.savefig('plots/lineplot_PAXvsFARE.pdf', bbox_inches="tight")
 plt.clf()
 
 #print(list(df.columns))

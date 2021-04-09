@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 
 path = 'C:/Users/chris/proj-lvm_files/EinsteigerVSySDiff2.att'
 
-df = attribut2dataframe(path)
+df = attribut2dataframe(path, [0, 1, 2])
 print(df)
 
 df = df[df['B_BAYERN']==1]
@@ -93,7 +93,8 @@ ax2.legend(loc='upper left', bbox_to_anchor=(1, 0.5))
 plt.tight_layout()
 
 fig = ax2.get_figure()
-fig.savefig('Barplot_Boardings.png')#, bbox_inches='tight')
+fig.savefig('plots/Barplot_Boardings.pdf')#, bbox_inches='tight')
+fig.savefig('plots/Barplot_Boardings.svg')#, bbox_inches='tight')
 plt.clf()
 
 fig2, ax3 = plt.subplots()
@@ -102,17 +103,19 @@ fig2 = ax3.get_figure()
 plt.title('Counted and Modelled Passengers at Stops')
 plt.ylabel('Frequency')
 plt.xlabel('GEH value')
-fig2.savefig('histogram_GEH.png')
+fig2.savefig('plots/histogram_GEH.pdf')
+fig2.savefig('plots/histogram_GEH.svg')
 plt.clf()
 
 fig2, ax3 = plt.subplots()
-df['GEH'].hist(bins=50, ax=ax3, label=r'$\sqrt{\frac{2(model-count)^2}{model+count}}$')
+df['GEH'].hist(bins=50, ax=ax3, label=r'$GEH=\sqrt{\frac{2(model-count)^2}{model+count}}$')
 fig2 = ax3.get_figure()
 plt.title('Deviation of Counted and Modelled Passengers at Stops')
 plt.ylabel('Frequency')
 plt.xlabel('GEH-weighted Deviation')
 ax3.legend(loc='upper right')
-fig2.savefig('histogram_GEH.png')
+fig2.savefig('plots/histogram_GEH.pdf')
+fig2.savefig('plots/histogram_GEH.svg')
 plt.clf()
 
 
@@ -128,7 +131,8 @@ fig2 = ax3.get_figure()
 plt.title('Deviation of Counted and Modelled Passengers at Stops')
 plt.ylabel('Frequency')
 plt.xlabel('Absolute Deviation')
-fig2.savefig('histogram_abs_deviation.png')
+fig2.savefig('plots/histogram_abs_deviation.pdf')
+fig2.savefig('plots/histogram_abs_deviation.svg')
 plt.clf()
 
 fig2, ax3 = plt.subplots()
@@ -137,7 +141,8 @@ fig2 = ax3.get_figure()
 plt.title('Empirical Data')
 plt.ylabel('Frequency')
 plt.xlabel('SPNV Counts')
-fig2.savefig('histogram_SPNV_counts.png')
+fig2.savefig('plots/histogram_SPNV_counts.pdf')
+fig2.savefig('plots/histogram_SPNV_counts.svg')
 plt.clf()
 
 print(df.nlargest(10,'GEH'))

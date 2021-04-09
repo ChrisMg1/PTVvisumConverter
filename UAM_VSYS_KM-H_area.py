@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-from matplotlib import cm
-from main import attribut2dataframe, idx_aliases
+
+from main import attribut2dataframe, idx_aliases, cmap1
 import pandas as pd
 pd.options.mode.chained_assignment = None
 
@@ -46,7 +46,7 @@ df_h.rename(columns={'PERSSTD_AP__CM0': '0',
 df_transp_km = df_km.transpose()
 
 # save areaplot for distance
-cmap1 = cm.get_cmap('coolwarm') # Colour map (there are many others)
+
 df_transp_km.plot.area(cmap=cmap1)
 plt.legend(loc='center', bbox_to_anchor=(0.5, -0.35), ncol=3)
 plt.title('Travel Distance of all Public Transport Modes')

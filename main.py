@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from matplotlib import cm
 
 
 
@@ -35,6 +36,8 @@ def findFirstLine(arrfile):
 
 def GEH(model, measure):
     return np.sqrt( ( 2 * np.power((model - measure), 2) ) / (model + measure) )
+
+cmap1 = cm.get_cmap('coolwarm') # Colour map (there are many others)
 
 # Dictionary to replace german terms
 VSYS_aliases = {
