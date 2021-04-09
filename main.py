@@ -2,9 +2,10 @@ import pandas as pd
 import numpy as np
 
 
-# todo: ersten 3 spalten als index; export KM ändern
-def attribut2dataframe(attfile):
-    ret_att = pd.read_csv(attfile, skiprows=findFirstLine(attfile), sep=';', encoding='ansi', index_col=0)#[0, 1, 2])#'$STOP:NO')
+
+def attribut2dataframe(attfile, myindex):
+    ret_att = pd.read_csv(attfile, skiprows=findFirstLine(attfile), sep=';', 
+                          encoding='ansi', index_col=myindex)
     # print(attfile)
     return ret_att
 
@@ -35,6 +36,33 @@ def findFirstLine(arrfile):
 def GEH(model, measure):
     return np.sqrt( ( 2 * np.power((model - measure), 2) ) / (model + measure) )
 
+# Dictionary to replace german terms
+VSYS_aliases = {
+  'Bus': 'Bus',
+  'Fernbus': 'Long Distance Bus',
+  'ÖVFuss': 'Foot',
+  'ICE/IC': 'ICE/IC',
+  'RB/RE': 'Regional Train',
+  'S-Bahn': 'Commuter Train',
+  'Seilbahn 30kmh': 'Cable Car',
+  'Schiff': 'Boat',
+  'Tram': 'Tram',
+  'U-Bahn': 'Metro',
+  'Urban Air Mobility 200kmh': 'UAM'
+}
 
+idx_aliases = {
+  'B': 'Bus',
+  'F': 'Long Distance Bus',
+  'Fuss': 'Foot',
+  'ICE': 'ICE/IC',
+  'RB': 'Regional Train',
+  'S': 'Commuter Train',
+  'SB30': 'Cable Car',
+  'Schiff': 'Boat',
+  'T': 'Tram',
+  'U': 'Metro',
+  'UAM200': 'UAM'
+}
 
 

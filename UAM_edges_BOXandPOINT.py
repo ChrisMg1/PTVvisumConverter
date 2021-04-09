@@ -13,7 +13,7 @@ att_file = 'C:/Users/chris/proj-lvm_files/Strecken_UAM_v2.att'
 # att_file = 'C:/Users/chris/proj-lvm_files/Strecken_UAM4.att'
 # path = 'C:/Users/chris/proj-lvm_files/EinsteigerVSySDiff.att'
 
-df = attribut2dataframe(att_file)
+df = attribut2dataframe(att_file, [0, 1, 2])
 
 df = df[df['TSYSSET']=='UAM200']
 

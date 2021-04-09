@@ -6,8 +6,8 @@ Created on Wed Apr  7 18:35:17 2021
 """
 
 import matplotlib.pyplot as plt
-from main import attribut2dataframe
-import numpy as np
+from main import attribut2dataframe, VSYS_aliases
+#import numpy as np
 import random
 
 import matplotlib.colors as mcolors
@@ -18,24 +18,11 @@ colors = random.choices(list(mcolors.CSS4_COLORS.values()),k = number_of_colors)
 vsys_file = 'C:/Users/chris/proj-lvm_files/VSYS_UAM_KM_H.att'
 
 
-df2 = attribut2dataframe(vsys_file)
+df2 = attribut2dataframe(vsys_file, [0, 1, 2])
 
-# Dictionary to replace german terms
-VSYS_aliases = {
-  'Bus': 'Bus',
-  'Fernbus': 'Long Distance Bus',
-  'ÖVFuss': 'Foot',
-  'ICE/IC': 'ICE/IC',
-  'RB/RE': 'Regional Train',
-  'S-Bahn': 'Commuter Train',
-  'Seilbahn 30kmh': 'Cable Car',
-  'Schiff': 'Boat',
-  'Tram': 'Tram',
-  'U-Bahn': 'Metro',
-  'Urban Air Mobility 200kmh': 'UAM'
-}
 
-VSYS_explode = (0,0,0,0,0,0,0,0,0,0,0.25)
+
+VSYS_explode = (0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.35)
 
 # print(df2)
 # print(list(df2.columns))
@@ -49,6 +36,8 @@ test_labels50 = df2['NAME']
 print(test_labels50)
 test_labels50 = test_labels50.replace(VSYS_aliases)
 print(test_labels50)
+
+print(df2)
 
 
 
