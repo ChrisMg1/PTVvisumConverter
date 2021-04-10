@@ -37,34 +37,34 @@ def findFirstLine(arrfile):
 def GEH(model, measure):
     return np.sqrt( ( 2 * np.power((model - measure), 2) ) / (model + measure) )
 
-cmap1 = cm.get_cmap('coolwarm') # Colour map (there are many others)
+cmap1 = cm.get_cmap('coolwarm') # Colour map (there are many others); coolwarm
 
 # Dictionary to replace german terms
 VSYS_aliases = {
   'Bus': 'Bus',
   'Fernbus': 'Long Distance Bus',
-  'ÖVFuss': 'Foot',
+  'ÖVFuss': 'Walk/Bike',
   'ICE/IC': 'ICE/IC',
   'RB/RE': 'Regional Train',
   'S-Bahn': 'Commuter Train',
-  'Seilbahn 30kmh': 'Cable Car',
+  'Seilbahn 30kmh': 'Aerial Tram',
   'Schiff': 'Boat',
   'Tram': 'Tram',
-  'U-Bahn': 'Metro',
+  'U-Bahn': 'Underground',
   'Urban Air Mobility 200kmh': 'UAM'
 }
 
 idx_aliases = {
   'B': 'Bus',
   'F': 'Long Distance Bus',
-  'Fuss': 'Foot',
+  'Fuss': 'Walk/Bike',
   'ICE': 'ICE/IC',
   'RB': 'Regional Train',
   'S': 'Commuter Train',
-  'SB30': 'Cable Car',
+  'SB30': 'Aerial Tram',
   'Schiff': 'Boat',
   'T': 'Tram',
-  'U': 'Metro',
+  'U': 'Underground',
   'UAM200': 'UAM'
 }
 
