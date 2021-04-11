@@ -59,7 +59,7 @@ def boardings_plot(out_f, color_f):
     plt.ylabel('Passengers [PAX]')
     plt.xlabel('Station Name')
     plt.xticks(fontsize=8)
-    plt.legend(loc='upper left', bbox_to_anchor=(1, 1), ncol=1)
+    plt.legend(loc='center', bbox_to_anchor=(0.5, -0.6), ncol=3)
     
     ax2.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.2)
     
