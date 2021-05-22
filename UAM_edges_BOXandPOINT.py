@@ -8,35 +8,47 @@ import matplotlib.pyplot as plt
 from main import attribut2dataframe
 import numpy as np
 
-att_file = 'C:/Users/chris/proj-lvm_files/Strecken_UAM_v2.att'
+att_file = 'C:/Users/chris/proj-lvm_files/Strecken_UAM_v4.att'
 
-df = attribut2dataframe(att_file, [0, 1, 2])
+UAMcap4 = 4 * 24 * 4
+UAMcap7 = 4 * 24 * 7
+
+
+df = attribut2dataframe(att_file, False)#[0, 1, 2])
 
 df = df[df['TSYSSET']=='UAM200']
 
-df.rename(columns={'CM_UAM_NULLFALL_0EURO_V2': '0',
-                   'CM_UAM_50EURO_V2': '50',
-                   'CM_UAM_100EURO_V2': '100',
-                   'CM_UAM_250EURO_V2': '250',
-                   'CM_UAM_500EURO_V2': '500',
-                   'CM_UAM_10000EURO_V2': '10000',
-                   'LENGTH': 'LENGTH_km'
-                   }, inplace=True)
+print(df)
+
+
+rename_dict_V2 = {'CM_UAM_NULLFALL_0EURO_V2': '0', 'CM_UAM_50EURO_V2': '50', 'CM_UAM_100EURO_V2': '100', 'CM_UAM_250EURO_V2': '250', 'CM_UAM_500EURO_V2': '500', 'CM_UAM_10000EURO_V2': '10000', 'LENGTH': 'LENGTH_km'}
+# rename_dict_V3 = {'CM_UAM_NULLFALL_0EURO_V3': '0', 'CM_UAM_50EURO_V3': '50', 'CM_UAM_100EURO_V3': '100', 'CM_UAM_250EURO_V3': '250', 'CM_UAM_500EURO_V3': '500', 'CM_UAM_10000EURO_V3': '10000', 'LENGTH': 'LENGTH_km'}
+rename_dict_V3 = {'CM_UAM_NULLFALL_0EURO_V4': '0', 'CM_UAM_50EURO_V4': '50', 'CM_UAM_100EURO_V4': '100', 'CM_UAM_250EURO_V4': '250', 'CM_UAM_500EURO_V4': '500', 'CM_UAM_1000EURO_V4': '1000', 'LENGTH': 'LENGTH_km'}
+
+df.rename(columns = rename_dict_V3, inplace=True)
 
 # if unit is also exported from Visum...:
 # df['LENGTH_km'] = df['LENGTH_km'].str[:-2].astype(np.double)
 
 df.sort_values(by='0', ascending=False, inplace=True, kind='quicksort', na_position='last')
 
-box_cols = ['0', '50', '100', '250', '500', '10000']
+# box_cols = ['0', '50', '100', '250', '500', '10000']
+box_cols = ['0', '50', '100', '250', '500', '1000']
 
-df.boxplot(column = box_cols)
-plt.title('Urban Air Mobility Passengers')
+df.boxplot(column = box_cols, whis=(0, 100))
+plt.title('Price-sensitive Occupancy of Drone Connections')
 plt.ylabel('Passengers on UAM Links [PAX/day]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.2)
-plt.savefig('plots/boxplot_PAXvsFARE.svg', bbox_inches="tight")
-plt.savefig('plots/boxplot_PAXvsFARE.pdf', bbox_inches="tight")
+
+plt.axhline(y = UAMcap4, color = 'r', linestyle = '-', label = '4-seater')
+plt.axhline(y = UAMcap7, color = 'b', linestyle = '-', label = '7-seater')
+
+plt.legend(loc='upper center', title='Maximum Capacity [PAX/day]', bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=4)
+
+plt.savefig('plots/boxplot_PAXvsFARE_v3.svg', bbox_inches="tight")
+plt.savefig('plots/boxplot_PAXvsFARE_v3.pdf', bbox_inches="tight")
+
 plt.clf()
 
 
@@ -48,15 +60,19 @@ for my_col in box_cols:
     new_col_name = my_col + '_w'
     new_col_sum = my_col + '_sum'
     new_box_cols.append(new_col_name)
-    df[new_col_name] = ( (df[my_col] * df['LENGTH_km']) / df['LENGTH_km'].sum() )
+    # df[new_col_name] = ( (df[my_col] * df['LENGTH_km']) / df['LENGTH_km'].sum() )
+    # df[new_col_name] =  (df[my_col] / df['LENGTH_km']) 
+    df[new_col_name] =  np.minimum(df[my_col], 500.0) 
     df[new_col_sum] = df[my_col].sum()
 
-df.boxplot(column = new_box_cols)
-plt.title('Urban Air Mobility Passengers Weighted with Distance')
+df.boxplot(column = new_box_cols, whis=(0, 100) )
+plt.title('Price-sensitive Occupancy of Drone Connections')
 plt.ylabel('Passengers on UAM Links [PAX/day]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
-# plt.savefig('plots/boxplot_weighted_distance_TEMP.svg', bbox_inches="tight")
-# plt.savefig('plots/boxplot_weighted_distance_TEMP.pdf', bbox_inches="tight")
+plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
+# plt.ylim(0, 750)
+plt.savefig('plots/boxplot_weighted_distance_TEMP.svg', bbox_inches="tight")
+plt.savefig('plots/boxplot_weighted_distance_TEMP.pdf', bbox_inches="tight")
 plt.clf()
 
 
@@ -66,10 +82,16 @@ value_cols = []
 edge_names = []
 
 for index, row in df[box_cols].iterrows():
-    # print(row)
+    
+    ## use real traffic load (PAX per link) from model ##
     value_cols.append(row.values.tolist())
     
+    ## use maximum capacity PAX (~500) instead of real value ##
+    # value_cols.append( np.minimum(row.values, 500.0) )
+    
+    
 # todo: Nur einmal iterieren!!
+
 
 for index, row in df[['NAME']].iterrows():
     # print(row.to_numpy()[0])
@@ -84,15 +106,26 @@ color=iter(plt.cm.rainbow(np.linspace(0,1,n)))
 
 for data in zip(value_cols, edge_names):
     c=next(color)
+    # print(data)
     plt.plot(box_cols, data[0], marker='.', linestyle='dashed', label = data[1], c=c)
 
-plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], 
-          fancybox=True, shadow=False, ncol=4)  
-plt.title('Urban Air Mobility Passengers')
+
+plt.title('Price-sensitive Occupancy of Drone Connections')
 plt.ylabel('Passengers on UAM Links [PAX/day]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
-plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.2)
-plt.savefig('plots/lineplot_PAXvsFARE.svg', bbox_inches="tight")
-plt.savefig('plots/lineplot_PAXvsFARE.pdf', bbox_inches="tight")
+plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
+
+
+
+plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=3)
+
+# plt.ylim(0, 750)
+plt.savefig('plots/lineplot_PAXvsFARE_v3.svg', bbox_inches="tight")
+plt.savefig('plots/lineplot_PAXvsFARE_v3.pdf', bbox_inches="tight")
 plt.clf()
+
+#df_max = df.copy()
+
+
+# print(list(rename_dict_V3.values()))
 

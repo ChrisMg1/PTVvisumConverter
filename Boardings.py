@@ -55,15 +55,21 @@ def boardings_plot(out_f, color_f):
     # activate for frame SPNV
     # to_bar_group1.plot.bar(x='NAME', y='SPNV', ax=ax2, width=0.1, position=0, edgecolor = "black", linewidth=2.5, fc="none")
     
-    plt.title('Boardings at Most Frequented Stations')
+    
+    
+    #plt.title('Boardings at Most Frequented Stations')
+    
+    
+    
     plt.ylabel('Passengers [PAX]')
     plt.xlabel('Station Name')
-    plt.xticks(fontsize=8)
-    plt.legend(loc='center', bbox_to_anchor=(0.5, -0.6), ncol=3)
+    plt.xticks(fontsize=10)
+    plt.legend(loc='center', bbox_to_anchor=(0.5, -0.5), ncol=3)
     
     ax2.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.2)
     
     fig = ax2.get_figure()
+    fig.set_size_inches(8, 5, forward=True)
     fig.autofmt_xdate()
     fig.savefig('plots/' + out_f + '.pdf', bbox_inches='tight')
     fig.savefig('plots/' + out_f + '.svg', bbox_inches='tight')
@@ -77,35 +83,39 @@ boardings_plot('Barplot_Boardings_grey', 'grey')
 
 fig2, ax3 = plt.subplots()
 df['GEH'].hist(bins=50, ax=ax3, label=r'$\sqrt{\frac{2(model-count)^2}{model+count}}$')
-plt.title('Deviation of Counted and Modelled Boardings')
+#plt.title('Deviation of Counted and Modelled Boardings')
 plt.ylabel('Frequency')
 plt.xlabel('GEH-weighted Deviation')
 
-ax3.legend(loc='upper right')
+#ax3.legend(loc='upper right')
+ax3.legend(loc='center', bbox_to_anchor=(0.5, -0.25))
 ax3.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.2)
 
 fig2 = ax3.get_figure()
-fig2.savefig('plots/histogram_GEH.pdf')
-fig2.savefig('plots/histogram_GEH.svg')
+fig2.set_size_inches(8, 5, forward=True)
+fig2.savefig('plots/histogram_GEH.pdf', bbox_inches='tight')
+fig2.savefig('plots/histogram_GEH.svg', bbox_inches='tight')
 plt.clf()
 fig2.clf()
 
 
 abs_limit = max(df["Deviation"].max(), abs(df["Deviation"].min()))
 fig3, ax4 = plt.subplots()
-
+fig3.set_size_inches(8, 5, forward=True)
 df['Deviation'].hist(bins=50, ax=ax4, range=(-abs_limit,abs_limit), label='model - count')
 
-ax4.legend(loc='upper right')
+#ax4.legend(loc='upper right')
+ax4.legend(loc='center', bbox_to_anchor=(0.5, -0.25))
 
-plt.title('Deviation of Counted and Modelled Boardings')
+#plt.title('Deviation of Counted and Modelled Boardings')
 plt.ylabel('Frequency')
 plt.xlabel('Absolute Deviation [PAX]')
 plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.2)
 
 fig3 = ax4.get_figure()
-fig3.savefig('plots/histogram_abs_deviation.pdf')
-fig3.savefig('plots/histogram_abs_deviation.svg')
+
+fig3.savefig('plots/histogram_abs_deviation.pdf', bbox_inches='tight')
+fig3.savefig('plots/histogram_abs_deviation.svg', bbox_inches='tight')
 plt.clf()
 fig3.clf()
 
@@ -115,11 +125,11 @@ fig3.clf()
 fig2, ax3 = plt.subplots()
 df['Calibration Count'].hist(bins=50, ax=ax3)
 fig2 = ax3.get_figure()
-plt.title('Empirical Data')
+#plt.title('Empirical Data')
 plt.ylabel('Frequency')
 plt.xlabel('SPNV Counts')
-fig2.savefig('plots/histogram_SPNV_counts.pdf')
-fig2.savefig('plots/histogram_SPNV_counts.svg')
+fig2.savefig('plots/histogram_SPNV_counts.pdf', bbox_inches='tight')
+fig2.savefig('plots/histogram_SPNV_counts.svg', bbox_inches='tight')
 plt.clf()
 fig2.clf()
 
