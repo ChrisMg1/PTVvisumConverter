@@ -2,7 +2,14 @@ import pandas as pd
 import numpy as np
 from matplotlib import cm
 
+def att_path(loc_name, version):
+    return loc_name + version + '.att'
 
+def pdf_path(loc_name, version):
+    return loc_name + version + '.pdf'
+
+def svg_path(loc_name, version):
+    return loc_name + version + '.svg'
 
 def attribut2dataframe(attfile, myindex):
     ret_att = pd.read_csv(attfile, skiprows=findFirstLine(attfile), sep=';', 
