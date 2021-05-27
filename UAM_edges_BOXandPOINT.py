@@ -42,6 +42,9 @@ df.sort_values(by='0', ascending=False, inplace=True, kind='quicksort', na_posit
 # box_cols = ['0', '50', '100', '250', '500', '10000']
 box_cols = ['0', '50', '100', '250', '500', '1000']
 
+
+#print(df[box_cols])
+
 df.boxplot(column = box_cols, whis=(0, 100))
 plt.title('Price-sensitive Occupancy of Drone Connections')
 plt.ylabel('Passengers on UAM Links [PAX/day]')

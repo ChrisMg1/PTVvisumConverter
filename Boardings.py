@@ -5,15 +5,21 @@ Created on Fri Apr  2 17:11:07 2021
 @author: chris
 """
 
-from main import attribut2dataframe, GEH# , cmap1
+from main import attribut2dataframe, GEH # , cmap1
 import numpy as np
 import matplotlib.pyplot as plt
 
 path = 'C:/Users/chris/proj-lvm_files/EinsteigerVSySDiff2.att'
 
-df = attribut2dataframe(path, [0, 1, 2])
+df = attribut2dataframe(path, False)# [0, 1, 2])
 
 df = df[df['B_BAYERN']==1]
+
+# todo:, Evtl. Filtern auf Zählwert > ''
+# Anscheinend genügt es, wenn B_BAYERN==1, weil für alle STOPS in Bayern Werte vorliegen
+
+print(df)
+print(df.columns)
 
 df.rename(columns={'NEU_EINST_N14': 'Calibration Count',
                    'PASSBOARD_TSYS(B,AP)': 'Bus',
@@ -133,8 +139,11 @@ fig2.savefig('plots/histogram_SPNV_counts.svg', bbox_inches='tight')
 plt.clf()
 fig2.clf()
 
-print(df.nlargest(10,'GEH')[['NAME', 'GEH']])
+#print(df.nlargest(10,'GEH')[['NAME', 'GEH']])
 print(df.nlargest(10,'Calibration Count')[['NAME', 'Calibration Count']])
 print(df.nsmallest(10,'Calibration Count')[['NAME', 'Calibration Count']])
+
+
+print(df[df['Calibration Count'] == ''].index)
 
 # newer 2p2
