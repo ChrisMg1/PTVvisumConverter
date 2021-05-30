@@ -28,15 +28,17 @@ df3.rename(index=hbf_aliases, inplace=True)
 col_transfer_all   = ['UMSTEIGERGES_AP__CM11M0_' + act_ver.upper(), 'UMSTEIGERGES_AP__CM11M50_' + act_ver.upper(), 'UMSTEIGERGES_AP__CM11M100_' + act_ver.upper(), 'UMSTEIGERGES_AP__CM11M250_' + act_ver.upper(), 'UMSTEIGERGES_AP__CM11M500_' + act_ver.upper(), 'UMSTEIGERGES_AP__CM11M1000_' + act_ver.upper()]
 col_board_uam = ['EINSTEIGER-VSYS_UAM200_AP__CM11M0_' + act_ver.upper(), 'EINSTEIGER-VSYS_UAM200_AP__CM11M50_' + act_ver.upper(), 'EINSTEIGER-VSYS_UAM200_AP__CM11M100_' + act_ver.upper(), 'EINSTEIGER-VSYS_UAM200_AP__CM11M250_' + act_ver.upper(), 'EINSTEIGER-VSYS_UAM200_AP__CM11M500_' + act_ver.upper(), 'EINSTEIGER-VSYS_UAM200_AP__CM11M1000_' + act_ver.upper()]
 col_board_ice = ['EINSTEIGER-VSYS_ICE_AP__CM11M0_' + act_ver.upper(), 'EINSTEIGER-VSYS_ICE_AP__CM11M50_' + act_ver.upper(), 'EINSTEIGER-VSYS_ICE_AP__CM11M100_' + act_ver.upper(), 'EINSTEIGER-VSYS_ICE_AP__CM11M250_' + act_ver.upper(), 'EINSTEIGER-VSYS_ICE_AP__CM11M500_' + act_ver.upper(), 'EINSTEIGER-VSYS_ICE_AP__CM11M1000_' + act_ver.upper()]
+col_board_rb = ['EINSTEIGER-VSYS_RB_AP__CM11M0_' + act_ver.upper(), 'EINSTEIGER-VSYS_RB_AP__CM11M50_' + act_ver.upper(), 'EINSTEIGER-VSYS_RB_AP__CM11M100_' + act_ver.upper(), 'EINSTEIGER-VSYS_RB_AP__CM11M250_' + act_ver.upper(), 'EINSTEIGER-VSYS_RB_AP__CM11M500_' + act_ver.upper(), 'EINSTEIGER-VSYS_RB_AP__CM11M1000_' + act_ver.upper()]
 
 # iterator
 cost_values = ['0', '50', '100', '250', '500', '1000']
 
 
-# create sub-df's for transfers and boarding total UAM/ICE
+# create sub-df's for transfers and boarding total UAM/ICE/RB
 df_transfer_all = df3[col_transfer_all]
 df_board_ice  = df3[col_board_ice]
 df_board_uam = df3[col_board_uam]
+df_board_rb = df3[col_board_rb]
 
 
 
@@ -46,10 +48,12 @@ for i in range(len(cost_values)):
     df_transfer_all.rename(columns={col_transfer_all[i]: cost_values[i]}, inplace=True)
     df_board_ice.rename(columns={col_board_ice[i]: cost_values[i]}, inplace=True)
     df_board_uam.rename(columns={col_board_uam[i]: cost_values[i]}, inplace=True)
+    df_board_rb.rename(columns={col_board_rb[i]: cost_values[i]}, inplace=True)
     
 df_transfer_all = df_transfer_all.sort_values(by='0', ascending=False)
 df_board_ice = df_board_ice.sort_values(by='0', ascending=False)
 df_board_uam = df_board_uam.sort_values(by='0', ascending=False)
+df_board_rb = df_board_rb.sort_values(by='0', ascending=False)
 
 
 
@@ -94,6 +98,20 @@ plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
 plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=3)
 plt.savefig(svg_path('plots/lineplot_ICEboard_', act_ver), bbox_inches="tight")
 plt.savefig(pdf_path('plots/lineplot_ICEboard_', act_ver), bbox_inches="tight")
+plt.clf()
+
+
+df_board_rb_transp = df_board_rb.transpose()
+
+plt.figure()
+df_board_rb_transp.plot(marker='.', linestyle='dashed')
+plt.title('RB Boardings')
+plt.ylabel('Passengers [PAX/day]')
+plt.xlabel('Added Fixed Costs to UAM Fare [€]')
+plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
+plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=3)
+plt.savefig(svg_path('plots/lineplot_RBboard_', act_ver), bbox_inches="tight")
+plt.savefig(pdf_path('plots/lineplot_RBboard_', act_ver), bbox_inches="tight")
 plt.clf()
 
 print(df_board_ice_transp)

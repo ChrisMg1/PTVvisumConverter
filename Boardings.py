@@ -8,18 +8,30 @@ Created on Fri Apr  2 17:11:07 2021
 from main import attribut2dataframe, GEH # , cmap1
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 
 path = 'C:/Users/chris/proj-lvm_files/EinsteigerVSySDiff2.att'
 
 df = attribut2dataframe(path, False)# [0, 1, 2])
 
+df_temp_count = df[['NAME', 'NEU_EINST_N14']]
+
 df = df[df['B_BAYERN']==1]
+
+
+print(len(df_temp_count))
+
+print(df_temp_count['NEU_EINST_N14'].isna().sum())
+
+print('================')
+
+# print(df_temp_count)
+
+# print(np.where(pd.isnull(df)))
 
 # todo:, Evtl. Filtern auf Zählwert > ''
 # Anscheinend genügt es, wenn B_BAYERN==1, weil für alle STOPS in Bayern Werte vorliegen
 
-print(df)
-print(df.columns)
 
 df.rename(columns={'NEU_EINST_N14': 'Calibration Count',
                    'PASSBOARD_TSYS(B,AP)': 'Bus',
@@ -142,8 +154,6 @@ fig2.clf()
 #print(df.nlargest(10,'GEH')[['NAME', 'GEH']])
 print(df.nlargest(10,'Calibration Count')[['NAME', 'Calibration Count']])
 print(df.nsmallest(10,'Calibration Count')[['NAME', 'Calibration Count']])
-
-
-print(df[df['Calibration Count'] == ''].index)
+#print(df[df['Calibration Count'] == ''].index)
 
 # newer 2p2
