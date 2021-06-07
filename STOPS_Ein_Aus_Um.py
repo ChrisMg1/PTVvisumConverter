@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from main import attribut2dataframe, att_path, pdf_path, svg_path, cmap1
 # import numpy as np
 
-act_ver = 'v4p2'
+act_ver = 'v5'
 
 att_file = att_path('C:/Users/chris/proj-lvm_files/STOPS_UAM_', act_ver)
 
@@ -25,13 +25,13 @@ df3.rename(index=hbf_aliases, inplace=True)
 
 
 # select columns for sub dataframes
-col_transfer_all   = ['UMSTEIGERGES_AP__CM11M0_' + act_ver.upper(), 'UMSTEIGERGES_AP__CM11M50_' + act_ver.upper(), 'UMSTEIGERGES_AP__CM11M100_' + act_ver.upper(), 'UMSTEIGERGES_AP__CM11M250_' + act_ver.upper(), 'UMSTEIGERGES_AP__CM11M500_' + act_ver.upper(), 'UMSTEIGERGES_AP__CM11M1000_' + act_ver.upper()]
-col_board_uam = ['EINSTEIGER-VSYS_UAM200_AP__CM11M0_' + act_ver.upper(), 'EINSTEIGER-VSYS_UAM200_AP__CM11M50_' + act_ver.upper(), 'EINSTEIGER-VSYS_UAM200_AP__CM11M100_' + act_ver.upper(), 'EINSTEIGER-VSYS_UAM200_AP__CM11M250_' + act_ver.upper(), 'EINSTEIGER-VSYS_UAM200_AP__CM11M500_' + act_ver.upper(), 'EINSTEIGER-VSYS_UAM200_AP__CM11M1000_' + act_ver.upper()]
-col_board_ice = ['EINSTEIGER-VSYS_ICE_AP__CM11M0_' + act_ver.upper(), 'EINSTEIGER-VSYS_ICE_AP__CM11M50_' + act_ver.upper(), 'EINSTEIGER-VSYS_ICE_AP__CM11M100_' + act_ver.upper(), 'EINSTEIGER-VSYS_ICE_AP__CM11M250_' + act_ver.upper(), 'EINSTEIGER-VSYS_ICE_AP__CM11M500_' + act_ver.upper(), 'EINSTEIGER-VSYS_ICE_AP__CM11M1000_' + act_ver.upper()]
-col_board_rb = ['EINSTEIGER-VSYS_RB_AP__CM11M0_' + act_ver.upper(), 'EINSTEIGER-VSYS_RB_AP__CM11M50_' + act_ver.upper(), 'EINSTEIGER-VSYS_RB_AP__CM11M100_' + act_ver.upper(), 'EINSTEIGER-VSYS_RB_AP__CM11M250_' + act_ver.upper(), 'EINSTEIGER-VSYS_RB_AP__CM11M500_' + act_ver.upper(), 'EINSTEIGER-VSYS_RB_AP__CM11M1000_' + act_ver.upper()]
+col_transfer_all   = ['UMSTEIGERGES_AP__CM11M000_' + act_ver.upper(), 'UMSTEIGERGES_AP__CM11M050_' + act_ver.upper(), 'UMSTEIGERGES_AP__CM11M100_' + act_ver.upper(), 'UMSTEIGERGES_AP__CM11M150_' + act_ver.upper(), 'UMSTEIGERGES_AP__CM11M250_' + act_ver.upper(), 'UMSTEIGERGES_AP__CM11M500_' + act_ver.upper()]
+col_board_uam = ['EINSTEIGER-VSYS_UAM200_AP__CM11M000_' + act_ver.upper(), 'EINSTEIGER-VSYS_UAM200_AP__CM11M050_' + act_ver.upper(), 'EINSTEIGER-VSYS_UAM200_AP__CM11M100_' + act_ver.upper(), 'EINSTEIGER-VSYS_UAM200_AP__CM11M150_' + act_ver.upper(), 'EINSTEIGER-VSYS_UAM200_AP__CM11M250_' + act_ver.upper(), 'EINSTEIGER-VSYS_UAM200_AP__CM11M500_' + act_ver.upper()]
+col_board_ice = ['EINSTEIGER-VSYS_ICE_AP__CM11M000_' + act_ver.upper(), 'EINSTEIGER-VSYS_ICE_AP__CM11M050_' + act_ver.upper(), 'EINSTEIGER-VSYS_ICE_AP__CM11M100_' + act_ver.upper(), 'EINSTEIGER-VSYS_ICE_AP__CM11M150_' + act_ver.upper(), 'EINSTEIGER-VSYS_ICE_AP__CM11M250_' + act_ver.upper(), 'EINSTEIGER-VSYS_ICE_AP__CM11M500_' + act_ver.upper()]
+col_board_rb = ['EINSTEIGER-VSYS_RB_AP__CM11M000_' + act_ver.upper(), 'EINSTEIGER-VSYS_RB_AP__CM11M050_' + act_ver.upper(), 'EINSTEIGER-VSYS_RB_AP__CM11M100_' + act_ver.upper(), 'EINSTEIGER-VSYS_RB_AP__CM11M150_' + act_ver.upper(), 'EINSTEIGER-VSYS_RB_AP__CM11M250_' + act_ver.upper(), 'EINSTEIGER-VSYS_RB_AP__CM11M500_' + act_ver.upper()]
 
 # iterator
-cost_values = ['0', '50', '100', '250', '500', '1000']
+cost_values = ['0', '50', '100', '150', '250', '500']
 
 
 # create sub-df's for transfers and boarding total UAM/ICE/RB
@@ -91,7 +91,7 @@ df_board_ice_transp = df_board_ice.transpose()
 
 plt.figure()
 df_board_ice_transp.plot(marker='.', linestyle='dashed')
-plt.title('ICE Boardings')
+plt.title('ICE/IC Boardings')
 plt.ylabel('Passengers [PAX/day]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
@@ -105,7 +105,7 @@ df_board_rb_transp = df_board_rb.transpose()
 
 plt.figure()
 df_board_rb_transp.plot(marker='.', linestyle='dashed')
-plt.title('RB Boardings')
+plt.title('RE/RB Boardings')
 plt.ylabel('Passengers [PAX/day]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)

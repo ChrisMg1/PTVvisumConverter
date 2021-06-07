@@ -5,10 +5,10 @@ import pandas as pd
 pd.options.mode.chained_assignment = None
 
 # run version of Visum
-act_ver = 'v4p2'
+act_ver = 'v5'
 
 # specify input file
-vsys_file = att_path('C:/Users/chris/proj-lvm_files/VSYS_UAM_KM_H_', act_ver)
+vsys_file = att_path('C:/Users/chris/proj-lvm_files/VSYS_UAM_KM_H_C_', act_ver)
 
 
 
@@ -33,10 +33,9 @@ df2.rename(index=idx_aliases, inplace=True)
 
 
 
-pers_cases  = ['LINBEF_AP__CM11M0_' + act_ver.upper(), 'LINBEF_AP__CM11M50_' + act_ver.upper(), 'LINBEF_AP__CM11M100_' + act_ver.upper(), 'LINBEF_AP__CM11M250_' + act_ver.upper(), 'LINBEF_AP__CM11M500_' + act_ver.upper(), 'LINBEF_AP__CM11M1000_' + act_ver.upper()]
-
-pers_km = ['PERSKM_AP__CM11M0_' + act_ver.upper(), 'PERSKM_AP__CM11M50_' + act_ver.upper(), 'PERSKM_AP__CM11M100_' + act_ver.upper(), 'PERSKM_AP__CM11M250_' + act_ver.upper(), 'PERSKM_AP__CM11M500_' + act_ver.upper(), 'PERSKM_AP__CM11M1000_' + act_ver.upper()]
-pers_h  = ['PERSSTD_AP__CM11M0_' + act_ver.upper(), 'PERSSTD_AP__CM11M50_' + act_ver.upper(), 'PERSSTD_AP__CM11M100_' + act_ver.upper(), 'PERSSTD_AP__CM11M250_' + act_ver.upper(), 'PERSSTD_AP__CM11M500_' + act_ver.upper(), 'PERSSTD_AP__CM11M1000_' + act_ver.upper()]
+pers_cases  = ['LINBEF_AP__CM11M000_' + act_ver.upper(), 'LINBEF_AP__CM11M050_' + act_ver.upper(), 'LINBEF_AP__CM11M100_' + act_ver.upper(), 'LINBEF_AP__CM11M150_' + act_ver.upper(), 'LINBEF_AP__CM11M250_' + act_ver.upper(), 'LINBEF_AP__CM11M500_' + act_ver.upper()]
+pers_km = ['PERSKM_AP__CM11M000_' + act_ver.upper(), 'PERSKM_AP__CM11M050_' + act_ver.upper(), 'PERSKM_AP__CM11M100_' + act_ver.upper(), 'PERSKM_AP__CM11M150_' + act_ver.upper(), 'PERSKM_AP__CM11M250_' + act_ver.upper(), 'PERSKM_AP__CM11M500_' + act_ver.upper()]
+pers_h  = ['PERSSTD_AP__CM11M000_' + act_ver.upper(), 'PERSSTD_AP__CM11M050_' + act_ver.upper(), 'PERSSTD_AP__CM11M100_' + act_ver.upper(), 'PERSSTD_AP__CM11M150_' + act_ver.upper(), 'PERSSTD_AP__CM11M250_' + act_ver.upper(), 'PERSSTD_AP__CM11M500_' + act_ver.upper()]
 
 
 
@@ -44,34 +43,33 @@ pers_h  = ['PERSSTD_AP__CM11M0_' + act_ver.upper(), 'PERSSTD_AP__CM11M50_' + act
 # create sub-df's
 df_km = df2[pers_km]
 df_h  = df2[pers_h]
-
 df_cases = df2[pers_cases]
 
 # print(df_h)
 
-df_km.rename(columns={'PERSKM_AP__CM11M0_' + act_ver.upper(): '0',
-                   'PERSKM_AP__CM11M50_' + act_ver.upper(): '50',
+df_km.rename(columns={'PERSKM_AP__CM11M000_' + act_ver.upper(): '0',
+                   'PERSKM_AP__CM11M050_' + act_ver.upper(): '50',
                    'PERSKM_AP__CM11M100_' + act_ver.upper(): '100',
+                   'PERSKM_AP__CM11M150_' + act_ver.upper(): '150',
                    'PERSKM_AP__CM11M250_' + act_ver.upper(): '250',
-                   'PERSKM_AP__CM11M500_' + act_ver.upper(): '500',
-                   'PERSKM_AP__CM11M1000_' + act_ver.upper(): '1000'
+                   'PERSKM_AP__CM11M500_' + act_ver.upper(): '500'
                    }, inplace=True)
 
-df_h.rename(columns={'PERSSTD_AP__CM11M0_' + act_ver.upper(): '0',
-                    'PERSSTD_AP__CM11M50_' + act_ver.upper(): '50', 
-                    'PERSSTD_AP__CM11M100_' + act_ver.upper(): '100', 
+df_h.rename(columns={'PERSSTD_AP__CM11M000_' + act_ver.upper(): '0',
+                    'PERSSTD_AP__CM11M050_' + act_ver.upper(): '50', 
+                    'PERSSTD_AP__CM11M100_' + act_ver.upper(): '100',
+                    'PERSSTD_AP__CM11M150_' + act_ver.upper(): '150', 
                     'PERSSTD_AP__CM11M250_' + act_ver.upper(): '250',
-                    'PERSSTD_AP__CM11M500_' + act_ver.upper(): '500',
-                    'PERSSTD_AP__CM11M1000_' + act_ver.upper(): '1000'
+                    'PERSSTD_AP__CM11M500_' + act_ver.upper(): '500'
                     }, inplace=True)
 
 
-df_cases.rename(columns={'LINBEF_AP__CM11M0_' + act_ver.upper(): '0',
-                    'LINBEF_AP__CM11M50_' + act_ver.upper(): '50', 
-                    'LINBEF_AP__CM11M100_' + act_ver.upper(): '100', 
+df_cases.rename(columns={'LINBEF_AP__CM11M000_' + act_ver.upper(): '0',
+                    'LINBEF_AP__CM11M050_' + act_ver.upper(): '50', 
+                    'LINBEF_AP__CM11M100_' + act_ver.upper(): '100',
+                    'LINBEF_AP__CM11M150_' + act_ver.upper(): '150', 
                     'LINBEF_AP__CM11M250_' + act_ver.upper(): '250',
-                    'LINBEF_AP__CM11M500_' + act_ver.upper(): '500',
-                    'LINBEF_AP__CM11M1000_' + act_ver.upper(): '1000'
+                    'LINBEF_AP__CM11M500_' + act_ver.upper(): '500'
                     }, inplace=True)
 
 

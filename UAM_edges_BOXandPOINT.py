@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from main import attribut2dataframe, att_path, pdf_path, svg_path
 import numpy as np
 
-act_ver = 'v4p2'
+act_ver = 'v5'
 
 att_file = att_path('C:/Users/chris/proj-lvm_files/Strecken_UAM_', act_ver)
 
@@ -26,21 +26,27 @@ df = df[df['TSYSSET']=='UAM200']
 #rename_dict_V2 = {'CM_UAM_NULLFALL_0EURO_V2': '0', 'CM_UAM_50EURO_V2': '50', 'CM_UAM_100EURO_V2': '100', 'CM_UAM_250EURO_V2': '250', 'CM_UAM_500EURO_V2': '500', 'CM_UAM_10000EURO_V2': '10000', 'LENGTH': 'LENGTH_km'}
 # rename_dict_V3 = {'CM_UAM_NULLFALL_0EURO_V3': '0', 'CM_UAM_50EURO_V3': '50', 'CM_UAM_100EURO_V3': '100', 'CM_UAM_250EURO_V3': '250', 'CM_UAM_500EURO_V3': '500', 'CM_UAM_10000EURO_V3': '10000', 'LENGTH': 'LENGTH_km'}
 #rename_dict_V3 = {'CM_UAM_NULLFALL_0EURO_V4': '0', 'CM_UAM_50EURO_V4': '50', 'CM_UAM_100EURO_V4': '100', 'CM_UAM_250EURO_V4': '250', 'CM_UAM_500EURO_V4': '500', 'CM_UAM_1000EURO_V4': '1000', 'LENGTH': 'LENGTH_km'}
-rename_dict_V4p2 = {'BELPERS-OEV_AP__CM11M0_V4P2': '0', 'BELPERS-OEV_AP__CM11M50_V4P2': '50', 'BELPERS-OEV_AP__CM11M100_V4P2': '100', 
-                  'BELPERS-OEV_AP__CM11M250_V4P2': '250', 'BELPERS-OEV_AP__CM11M500_V4P2': '500', 'BELPERS-OEV_AP__CM11M1000_V4P2': '1000', 
-                  'LENGTH': 'LENGTH_km'}
+#rename_dict_V4p2 = {'BELPERS-OEV_AP__CM11M0_V4P2': '0', 'BELPERS-OEV_AP__CM11M50_V4P2': '50', 'BELPERS-OEV_AP__CM11M100_V4P2': '100', 
+ #                 'BELPERS-OEV_AP__CM11M250_V4P2': '250', 'BELPERS-OEV_AP__CM11M500_V4P2': '500', 'BELPERS-OEV_AP__CM11M1000_V4P2': '1000', 
+  #                'LENGTH': 'LENGTH_km'}
 
 
+rename_dict = {'BELPERS-OEV_AP__CM11M000_' + act_ver.upper(): '0', 'BELPERS-OEV_AP__CM11M050_' + act_ver.upper(): '50', 
+                    'BELPERS-OEV_AP__CM11M100_' + act_ver.upper(): '100', 'BELPERS-OEV_AP__CM11M150_' + act_ver.upper(): '150', 
+                    'BELPERS-OEV_AP__CM11M250_' + act_ver.upper(): '250', 'BELPERS-OEV_AP__CM11M500_' + act_ver.upper(): '500', 
+                    'LENGTH': 'LENGTH_km'}
 
-df.rename(columns = rename_dict_V4p2, inplace=True)
+
+df.rename(columns = rename_dict, inplace=True)
 
 # if unit is also exported from Visum...:
-# df['LENGTH_km'] = df['LENGTH_km'].str[:-2].astype(np.double)
+if False:
+    df['LENGTH_km'] = df['LENGTH_km'].str[:-2].astype(np.double)
 
 df.sort_values(by='0', ascending=False, inplace=True, kind='quicksort', na_position='last')
 
 # box_cols = ['0', '50', '100', '250', '500', '10000']
-box_cols = ['0', '50', '100', '250', '500', '1000']
+box_cols = ['0', '50', '100', '150', '250', '500']
 
 
 #print(df[box_cols])
@@ -141,4 +147,6 @@ plt.clf()
 
 
 # print(list(rename_dict_V3.values()))
+
+
 
