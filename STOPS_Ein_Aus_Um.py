@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from main import attribut2dataframe, att_path, pdf_path, svg_path, cmap1
 # import numpy as np
 
-act_ver = 'v5'
+act_ver = 'v5p1'
 
 att_file = att_path('C:/Users/chris/proj-lvm_files/STOPS_UAM_', act_ver)
 
@@ -63,8 +63,8 @@ df_transfer_all_transp = df_transfer_all.transpose()
 
 plt.figure()
 df_transfer_all_transp.plot(marker='.', linestyle='dashed')
-plt.title('Total Transfers')
-plt.ylabel('Passengers [PAX/day]')
+# plt.title('Total Transfers')
+plt.ylabel('Total Transfers [PAX/day]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
 plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=3)
@@ -77,8 +77,8 @@ df_board_uam_transp = df_board_uam.transpose()
 
 plt.figure()
 df_board_uam_transp.plot(marker='.', linestyle='dashed')
-plt.title('Potential UAM Boardings')
-plt.ylabel('Passengers [PAX/day]')
+# plt.title('UAM Boardings')
+plt.ylabel('UAM Boardings [PAX/day]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
 plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=3)
@@ -91,8 +91,8 @@ df_board_ice_transp = df_board_ice.transpose()
 
 plt.figure()
 df_board_ice_transp.plot(marker='.', linestyle='dashed')
-plt.title('ICE/IC Boardings')
-plt.ylabel('Passengers [PAX/day]')
+# plt.title('ICE/IC Boardings')
+plt.ylabel('ICE/IC Boardings [PAX/day]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
 plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=3)
@@ -105,8 +105,8 @@ df_board_rb_transp = df_board_rb.transpose()
 
 plt.figure()
 df_board_rb_transp.plot(marker='.', linestyle='dashed')
-plt.title('RE/RB Boardings')
-plt.ylabel('Passengers [PAX/day]')
+# plt.title('RE/RB Boardings')
+plt.ylabel('RE/RB Boardings [PAX/day]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
 plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=3)

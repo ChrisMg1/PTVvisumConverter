@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from main import attribut2dataframe, att_path, pdf_path, svg_path
 import numpy as np
 
-act_ver = 'v5'
+act_ver = 'v5p1'
 
 att_file = att_path('C:/Users/chris/proj-lvm_files/Strecken_UAM_', act_ver)
 
@@ -19,17 +19,6 @@ UAMcap7 = 4 * 24 * 7
 df = attribut2dataframe(att_file, False)#[0, 1, 2])
 
 df = df[df['TSYSSET']=='UAM200']
-
-#print(df)
-
-
-#rename_dict_V2 = {'CM_UAM_NULLFALL_0EURO_V2': '0', 'CM_UAM_50EURO_V2': '50', 'CM_UAM_100EURO_V2': '100', 'CM_UAM_250EURO_V2': '250', 'CM_UAM_500EURO_V2': '500', 'CM_UAM_10000EURO_V2': '10000', 'LENGTH': 'LENGTH_km'}
-# rename_dict_V3 = {'CM_UAM_NULLFALL_0EURO_V3': '0', 'CM_UAM_50EURO_V3': '50', 'CM_UAM_100EURO_V3': '100', 'CM_UAM_250EURO_V3': '250', 'CM_UAM_500EURO_V3': '500', 'CM_UAM_10000EURO_V3': '10000', 'LENGTH': 'LENGTH_km'}
-#rename_dict_V3 = {'CM_UAM_NULLFALL_0EURO_V4': '0', 'CM_UAM_50EURO_V4': '50', 'CM_UAM_100EURO_V4': '100', 'CM_UAM_250EURO_V4': '250', 'CM_UAM_500EURO_V4': '500', 'CM_UAM_1000EURO_V4': '1000', 'LENGTH': 'LENGTH_km'}
-#rename_dict_V4p2 = {'BELPERS-OEV_AP__CM11M0_V4P2': '0', 'BELPERS-OEV_AP__CM11M50_V4P2': '50', 'BELPERS-OEV_AP__CM11M100_V4P2': '100', 
- #                 'BELPERS-OEV_AP__CM11M250_V4P2': '250', 'BELPERS-OEV_AP__CM11M500_V4P2': '500', 'BELPERS-OEV_AP__CM11M1000_V4P2': '1000', 
-  #                'LENGTH': 'LENGTH_km'}
-
 
 rename_dict = {'BELPERS-OEV_AP__CM11M000_' + act_ver.upper(): '0', 'BELPERS-OEV_AP__CM11M050_' + act_ver.upper(): '50', 
                     'BELPERS-OEV_AP__CM11M100_' + act_ver.upper(): '100', 'BELPERS-OEV_AP__CM11M150_' + act_ver.upper(): '150', 
@@ -45,11 +34,10 @@ if False:
 
 df.sort_values(by='0', ascending=False, inplace=True, kind='quicksort', na_position='last')
 
-# box_cols = ['0', '50', '100', '250', '500', '10000']
 box_cols = ['0', '50', '100', '150', '250', '500']
 
 
-#print(df[box_cols])
+#print(df.columns)
 
 df.boxplot(column = box_cols, whis=(0, 100))
 plt.title('Price-sensitive Occupancy of Drone Connections')
@@ -61,15 +49,10 @@ plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.2)
 plt.axhline(y = UAMcap4, color = 'r', linestyle = '-', label = '4-seater')
 plt.axhline(y = UAMcap7, color = 'b', linestyle = '-', label = '7-seater')
 
-plt.legend(loc='upper center', title='Maximum Capacity [PAX/day]', bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=4)
-
+plt.legend(loc='upper right', title='Maximum Capacity [PAX/day]')#, bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=4)
 
 plt.savefig(svg_path('plots/boxplot_PAXvsFARE_', act_ver), bbox_inches="tight")
 plt.savefig(pdf_path('plots/boxplot_PAXvsFARE_', act_ver), bbox_inches="tight")
-
-
-
-
 plt.clf()
 
 
@@ -83,19 +66,21 @@ for my_col in box_cols:
     new_box_cols.append(new_col_name)
     # df[new_col_name] = ( (df[my_col] * df['LENGTH_km']) / df['LENGTH_km'].sum() )
     # df[new_col_name] =  (df[my_col] / df['LENGTH_km']) 
-    df[new_col_name] =  np.minimum(df[my_col], 500.0) 
+    df[new_col_name] =  np.minimum(df[my_col], UAMcap7) 
     df[new_col_sum] = df[my_col].sum()
 
 df.boxplot(column = new_box_cols, whis=(0, 100) )
-plt.title('Price-sensitive Occupancy of Drone Connections')
+# plt.title('Price-sensitive Occupancy of Drone Connections')
 plt.ylabel('Passengers on UAM Links [PAX/day]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
-# plt.ylim(0, 750)
+plt.ylim(0, UAMcap7 * 1.3)
 
 # don't plot solange nicht fertig
-# plt.savefig('plots/boxplot_weighted_distance_TEMP.svg', bbox_inches="tight")
-# plt.savefig('plots/boxplot_weighted_distance_TEMP.pdf', bbox_inches="tight")
+
+plt.savefig(svg_path('plots/boxplot_PAXvsFARE_MAX_', act_ver), bbox_inches="tight")
+plt.savefig(pdf_path('plots/boxplot_PAXvsFARE_MAX_', act_ver), bbox_inches="tight")
+
 plt.clf()
 
 
@@ -106,11 +91,17 @@ edge_names = []
 
 for index, row in df[box_cols].iterrows():
     
-    ## use real traffic load (PAX per link) from model ##
-    value_cols.append(row.values.tolist())
+    type = 'max' # 'real' | 'max'
     
-    ## use maximum capacity PAX (~500) instead of real value ##
-    # value_cols.append( np.minimum(row.values, 500.0) )
+    ## use real traffic load (PAX per link) from model ##
+    if type == 'real':
+        value_cols.append(row.values.tolist())
+        line_path = 'plots/lineplot_PAXvsFARE_'
+    
+    ## use maximum capacity PAX (~UAMcap7) instead of real value ##
+    elif type == 'max':
+        value_cols.append(np.minimum(row.values, UAMcap7))
+        line_path = 'plots/lineplot_PAXvsFARE_MAX_'
     
     
 # todo: Nur einmal iterieren!!
@@ -132,15 +123,42 @@ for data in zip(value_cols, edge_names):
     # print(data)
     plt.plot(box_cols, data[0], marker='.', linestyle='dashed', label = data[1], c=c)
 
+if type == 'max':
+    plt.ylim(0, UAMcap7 * 1.3)
 
-plt.title('Price-sensitive Occupancy of Drone Connections')
+
+# plt.title('Price-sensitive Occupancy of Drone Connections') # Title in Paper, not in plot
 plt.ylabel('Passengers on UAM Links [PAX/day]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
-plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=3)
-plt.savefig(svg_path('plots/lineplot_PAXvsFARE_', act_ver), bbox_inches="tight")
-plt.savefig(pdf_path('plots/lineplot_PAXvsFARE_', act_ver), bbox_inches="tight")
+
+# Legend only on first plot (same colors with limited access)
+if type == 'real':
+    plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=3)
+plt.savefig(svg_path(line_path, act_ver), bbox_inches="tight")
+plt.savefig(pdf_path(line_path, act_ver), bbox_inches="tight")
 plt.clf()
+
+
+
+
+# Histogram : Distribution on UAM lengths
+
+fig, ax0 = plt.subplots(nrows=1)
+df['LENGTH_km'].hist(ax=ax0, label = 'UAM Links')
+plt.axvline(x=300, color='r', linestyle='dashed', linewidth=2, label = 'Max. UAM Range')
+plt.legend(loc='upper right')
+plt.ylabel('UAM Links (Total = 150)')
+plt.xlabel('Length [km]')
+plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.2)
+plt.savefig(svg_path('plots/histogram_UAMlen_', act_ver), bbox_inches="tight")
+plt.savefig(pdf_path('plots/histogram_UAMlen_', act_ver), bbox_inches="tight")
+plt.clf()
+
+
+
+
+
 
 #df_max = df.copy()
 

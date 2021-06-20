@@ -5,7 +5,7 @@ import pandas as pd
 pd.options.mode.chained_assignment = None
 
 # run version of Visum
-act_ver = 'v5'
+act_ver = 'v5p1'
 
 # specify input file
 vsys_file = att_path('C:/Users/chris/proj-lvm_files/VSYS_UAM_KM_H_C_', act_ver)
@@ -33,7 +33,7 @@ df2.rename(index=idx_aliases, inplace=True)
 
 
 
-pers_cases  = ['LINBEF_AP__CM11M000_' + act_ver.upper(), 'LINBEF_AP__CM11M050_' + act_ver.upper(), 'LINBEF_AP__CM11M100_' + act_ver.upper(), 'LINBEF_AP__CM11M150_' + act_ver.upper(), 'LINBEF_AP__CM11M250_' + act_ver.upper(), 'LINBEF_AP__CM11M500_' + act_ver.upper()]
+pers_cases = ['LINBEF_AP__CM11M000_' + act_ver.upper(), 'LINBEF_AP__CM11M050_' + act_ver.upper(), 'LINBEF_AP__CM11M100_' + act_ver.upper(), 'LINBEF_AP__CM11M150_' + act_ver.upper(), 'LINBEF_AP__CM11M250_' + act_ver.upper(), 'LINBEF_AP__CM11M500_' + act_ver.upper()]
 pers_km = ['PERSKM_AP__CM11M000_' + act_ver.upper(), 'PERSKM_AP__CM11M050_' + act_ver.upper(), 'PERSKM_AP__CM11M100_' + act_ver.upper(), 'PERSKM_AP__CM11M150_' + act_ver.upper(), 'PERSKM_AP__CM11M250_' + act_ver.upper(), 'PERSKM_AP__CM11M500_' + act_ver.upper()]
 pers_h  = ['PERSSTD_AP__CM11M000_' + act_ver.upper(), 'PERSSTD_AP__CM11M050_' + act_ver.upper(), 'PERSSTD_AP__CM11M100_' + act_ver.upper(), 'PERSSTD_AP__CM11M150_' + act_ver.upper(), 'PERSSTD_AP__CM11M250_' + act_ver.upper(), 'PERSSTD_AP__CM11M500_' + act_ver.upper()]
 
@@ -80,8 +80,8 @@ print(df_transp_km)
 
 df_transp_km.plot.area(cmap=cmap1)
 plt.legend(loc='center', bbox_to_anchor=(0.5, -0.35), ncol=2)
-plt.title('Travelled Distance with Public Transport')
-plt.ylabel('Total Kilometres [km]')
+# plt.title('Travelled Distance with Public Transport')
+plt.ylabel('Travelled Distance [person-km]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 plt.savefig(svg_path('plots/areaplot_dist_', act_ver), bbox_inches="tight")
 plt.savefig(pdf_path('plots/areaplot_dist_', act_ver), bbox_inches="tight")
@@ -94,8 +94,8 @@ df_transp_h = df_h.transpose()
 
 df_transp_h.plot.area(cmap=cmap1)
 plt.legend(loc='center', bbox_to_anchor=(0.5, -0.35), ncol=2)
-plt.title('Travelled Time with Public Transport')
-plt.ylabel('Total Time [h]')
+# plt.title('Travelled Time with Public Transport')
+plt.ylabel('Travelled Time [person-hours]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 plt.savefig(svg_path('plots/areaplot_time_', act_ver), bbox_inches="tight")
 plt.savefig(pdf_path('plots/areaplot_time_', act_ver), bbox_inches="tight")
@@ -108,8 +108,8 @@ df_transp_cases = df_cases.transpose()
 
 df_transp_cases.plot.area(cmap=cmap1)
 plt.legend(loc='center', bbox_to_anchor=(0.5, -0.35), ncol=2)
-plt.title('Transport Cases with Public Transport')
-plt.ylabel('Total Cases [PAX]')
+#  plt.title('Transport Cases with Public Transport')
+plt.ylabel('Transport Cases [PAX]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 plt.savefig(svg_path('plots/areaplot_cases_', act_ver), bbox_inches="tight")
 plt.savefig(pdf_path('plots/areaplot_cases_', act_ver), bbox_inches="tight")

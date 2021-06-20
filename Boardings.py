@@ -82,7 +82,8 @@ def boardings_plot(out_f, color_f):
     plt.ylabel('Passengers [PAX]')
     plt.xlabel('Station Name')
     plt.xticks(fontsize=10)
-    plt.legend(loc='center', bbox_to_anchor=(0.5, -0.5), ncol=3)
+    # plt.legend(loc='center', bbox_to_anchor=(0.5, -0.5), ncol=3)
+    plt.legend(loc='upper right', ncol=3)
     
     ax2.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.2)
     
@@ -95,8 +96,8 @@ def boardings_plot(out_f, color_f):
     fig.clf()
 
 
-boardings_plot('Barplot_Boardings_white', 'white')
-boardings_plot('Barplot_Boardings_grey', 'grey')
+boardings_plot('barplot_boardings_white', 'white')
+boardings_plot('barplot_boardings_grey', 'grey')
 
 
 fig2, ax3 = plt.subplots()
@@ -122,8 +123,8 @@ fig3, ax4 = plt.subplots()
 fig3.set_size_inches(8, 5, forward=True)
 df['Deviation'].hist(bins=50, ax=ax4, range=(-abs_limit,abs_limit), label='model - count')
 
-#ax4.legend(loc='upper right')
-ax4.legend(loc='center', bbox_to_anchor=(0.5, -0.25))
+ax4.legend(loc='upper right')
+#ax4.legend(loc='center', bbox_to_anchor=(0.5, -0.25))
 
 #plt.title('Deviation of Counted and Modelled Boardings')
 plt.ylabel('Frequency')
