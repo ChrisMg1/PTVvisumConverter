@@ -40,8 +40,8 @@ box_cols = ['0', '50', '100', '150', '250', '500']
 #print(df.columns)
 
 df.boxplot(column = box_cols, whis=(0, 100))
-plt.title('Price-sensitive Occupancy of Drone Connections')
-plt.ylabel('Passengers on UAM Links [PAX/day]')
+# plt.title('Price-sensitive Occupancy of Drone Connections') # not in paper!
+plt.ylabel('Passengers on UAM Links [PAX/d]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.2)
 
@@ -49,7 +49,7 @@ plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.2)
 plt.axhline(y = UAMcap4, color = 'r', linestyle = '-', label = '4-seater')
 plt.axhline(y = UAMcap7, color = 'b', linestyle = '-', label = '7-seater')
 
-plt.legend(loc='upper right', title='Maximum Capacity [PAX/day]')#, bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=4)
+plt.legend(loc='upper right', title='Maximum Capacity [PAX/d]')#, bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=4)
 
 plt.savefig(svg_path('plots/boxplot_PAXvsFARE_', act_ver), bbox_inches="tight")
 plt.savefig(pdf_path('plots/boxplot_PAXvsFARE_', act_ver), bbox_inches="tight")
@@ -71,7 +71,7 @@ for my_col in box_cols:
 
 df.boxplot(column = new_box_cols, whis=(0, 100) )
 # plt.title('Price-sensitive Occupancy of Drone Connections')
-plt.ylabel('Passengers on UAM Links [PAX/day]')
+plt.ylabel('Passengers on UAM Links [PAX/d]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
 plt.ylim(0, UAMcap7 * 1.3)
@@ -91,7 +91,7 @@ edge_names = []
 
 for index, row in df[box_cols].iterrows():
     
-    type = 'max' # 'real' | 'max'
+    type = 'real' # 'real' | 'max'
     
     ## use real traffic load (PAX per link) from model ##
     if type == 'real':
@@ -128,13 +128,13 @@ if type == 'max':
 
 
 # plt.title('Price-sensitive Occupancy of Drone Connections') # Title in Paper, not in plot
-plt.ylabel('Passengers on UAM Links [PAX/day]')
+plt.ylabel('Passengers on UAM Links [PAX/d]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
 
 # Legend only on first plot (same colors with limited access)
 if type == 'real':
-    plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=3)
+    plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=3, title="UAM Connections")
 plt.savefig(svg_path(line_path, act_ver), bbox_inches="tight")
 plt.savefig(pdf_path(line_path, act_ver), bbox_inches="tight")
 plt.clf()

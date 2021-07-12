@@ -24,11 +24,11 @@ scen = 1
 plt.figure()
 # fare_plot.plot(marker='.', linestyle='dashed')
 
-plt.plot(fare_plot['tariff points'], fare_plot['fare'], linestyle = '-', color = 'k', label = 'Distance Costs', linewidth=3)
+plt.plot(fare_plot['tariff points'], fare_plot['fare'], linestyle = '-', color = 'k', label = r'Distance-Depended Fare $F^{dd}$', linewidth=3)
 
 
 for sur in reversed(charges): 
-    plt.axhline(y = sur[0], linestyle = '-', color = sur[1], label = 'UAM Surcharge Scenario ' + str(scen), linewidth=1)
+    plt.axhline(y = sur[0], linestyle = '-', color = sur[1], label = r'UAM Surcharge $F^{fs}$ Scenario ' + str(scen), linewidth=1)
     scen = scen + 1
 plt.plot(fare_plot['tariff points'], fare_plot['fare'], linestyle = '-', color = 'k', linewidth=3)
     

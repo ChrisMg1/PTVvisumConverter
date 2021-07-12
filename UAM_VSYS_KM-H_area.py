@@ -76,30 +76,36 @@ df_cases.rename(columns={'LINBEF_AP__CM11M000_' + act_ver.upper(): '0',
 
 # Calculations for percentages (in plot)
 
-if False:
+if True:
+    print('TRAVEL TIME')
     df_h_temp = df_h.copy()
     #print(df_h_temp)
     df_h_temp = df_h_temp.drop(['Walk/Bike', 'Aerial Tram'])
     #print(df_h_temp)
-    df_h_temp = df_h_temp / df_h_temp.sum() * 100
-    print(df_h_temp.round(2))
-    print(df_h_temp.round(2).append(df_h_temp.sum(numeric_only=True), ignore_index=True))
+    df_h_temp_perc = df_h_temp / df_h_temp.sum() * 100
+    print(df_h_temp_perc.round(2))
+    print(df_h_temp_perc.round(2).append(df_h_temp_perc.sum(numeric_only=True), ignore_index=True))
+    print(df_h_temp.append(df_h_temp.sum(numeric_only=True), ignore_index=True))
     
+    print('TRAVEL DISTANCE')
     df_km_temp = df_km.copy()
     #print(df_km_temp)
     df_km_temp = df_km_temp.drop(['Walk/Bike', 'Aerial Tram'])
     #print(df_km_temp)
-    df_km_temp = df_km_temp / df_km_temp.sum() * 100
-    print(df_km_temp.round(2))
-    print(df_km_temp.round(2).append(df_km_temp.sum(numeric_only=True), ignore_index=True))
+    df_km_temp_perc = df_km_temp / df_km_temp.sum() * 100
+    print(df_km_temp_perc.round(2))
+    print(df_km_temp_perc.round(2).append(df_km_temp_perc.sum(numeric_only=True), ignore_index=True))
+    print(df_km_temp.append(df_km_temp.sum(numeric_only=True), ignore_index=True))
     
+    print('TRAVEL CASES')
     df_cases_temp = df_cases.copy()
     #print(df_cases_temp)
     df_cases_temp = df_cases_temp.drop(['Walk/Bike', 'Aerial Tram'])
     #print(df_cases_temp)
-    df_cases_temp = df_cases_temp / df_cases_temp.sum() * 100
-    print(df_cases_temp.round(2))
-    print(df_cases_temp.round(2).append(df_cases_temp.sum(numeric_only=True), ignore_index=True))
+    df_cases_temp_perc = df_cases_temp / df_cases_temp.sum() * 100
+    print(df_cases_temp_perc.round(2))
+    print(df_cases_temp_perc.round(2).append(df_cases_temp_perc.sum(numeric_only=True), ignore_index=True))
+    print(df_cases_temp.append(df_cases_temp.sum(numeric_only=True), ignore_index=True))
 
 
 df_transp_km = df_km.drop(['Walk/Bike', 'Aerial Tram']).transpose()
@@ -107,9 +113,9 @@ df_transp_km = df_km.drop(['Walk/Bike', 'Aerial Tram']).transpose()
 # save areaplot for distance
 
 df_transp_km.plot.area(cmap=cmap1)
-plt.legend(loc='center', bbox_to_anchor=(0.5, -0.35), ncol=2)
+plt.legend(loc='center', bbox_to_anchor=(0.5, -0.35), ncol=2, title="Mode of Transport")
 # plt.title('Travelled Distance with Public Transport')
-plt.ylabel('Travelled Distance [passenger-kilometre]')
+plt.ylabel('Travelled Distance [PAX-km/d]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 plt.savefig(svg_path('plots/areaplot_dist_', act_ver), bbox_inches="tight")
 plt.savefig(pdf_path('plots/areaplot_dist_', act_ver), bbox_inches="tight")
@@ -121,9 +127,9 @@ df_transp_h = df_h.drop(['Walk/Bike', 'Aerial Tram']).transpose()
 # save areaplot for time
 
 df_transp_h.plot.area(cmap=cmap1)
-plt.legend(loc='center', bbox_to_anchor=(0.5, -0.35), ncol=2)
+plt.legend(loc='center', bbox_to_anchor=(0.5, -0.35), ncol=2, title="Mode of Transport")
 # plt.title('Travelled Time with Public Transport')
-plt.ylabel('Travelled Time [passenger-hour]')
+plt.ylabel('Travelled Time [PAX-h/d]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 plt.savefig(svg_path('plots/areaplot_time_', act_ver), bbox_inches="tight")
 plt.savefig(pdf_path('plots/areaplot_time_', act_ver), bbox_inches="tight")
@@ -136,9 +142,9 @@ df_transp_cases = df_cases.drop(['Walk/Bike', 'Aerial Tram']).transpose()
 # save areaplot for cases
 
 df_transp_cases.plot.area(cmap=cmap1)
-plt.legend(loc='center', bbox_to_anchor=(0.5, -0.35), ncol=2)
+plt.legend(loc='center', bbox_to_anchor=(0.5, -0.35), ncol=2, title="Mode of Transport")
 #  plt.title('Transport Cases with Public Transport')
-plt.ylabel('Transport Cases [PAX]')
+plt.ylabel('Transport Cases [PAX/d]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 plt.savefig(svg_path('plots/areaplot_cases_', act_ver), bbox_inches="tight")
 plt.savefig(pdf_path('plots/areaplot_cases_', act_ver), bbox_inches="tight")
