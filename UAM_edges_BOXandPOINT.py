@@ -145,10 +145,10 @@ plt.clf()
 # Histogram : Distribution on UAM lengths
 
 fig, ax0 = plt.subplots(nrows=1)
-df['LENGTH_km'].hist(ax=ax0, label = 'UAM Links')
+df['LENGTH_km'].hist(ax=ax0, label = 'UAM Connections')
 plt.axvline(x=300, color='r', linestyle='dashed', linewidth=2, label = 'Max. UAM Range')
 plt.legend(loc='upper right')
-plt.ylabel('UAM Links (Total = 150)')
+plt.ylabel('Number (Total = 150)')
 plt.xlabel('Length [km]')
 plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.2)
 plt.savefig(svg_path('plots/histogram_UAMlen_', act_ver), bbox_inches="tight")
