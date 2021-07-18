@@ -113,9 +113,9 @@ df_transp_km = df_km.drop(['Walk/Bike', 'Aerial Tram']).transpose()
 # save areaplot for distance
 
 df_transp_km.plot.area(cmap=cmap1)
-plt.legend(loc='center', bbox_to_anchor=(0.5, -0.35), ncol=2, title="Mode of Transport")
+plt.legend(loc='center', bbox_to_anchor=(0.5, -0.35), ncol=3, title="Mode of Transport")
 # plt.title('Travelled Distance with Public Transport')
-plt.ylabel('Travelled Distance [PAX-km/d]')
+plt.ylabel('Traveled Distance [PAX km/d]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 plt.savefig(svg_path('plots/areaplot_dist_', act_ver), bbox_inches="tight")
 plt.savefig(pdf_path('plots/areaplot_dist_', act_ver), bbox_inches="tight")
@@ -127,9 +127,9 @@ df_transp_h = df_h.drop(['Walk/Bike', 'Aerial Tram']).transpose()
 # save areaplot for time
 
 df_transp_h.plot.area(cmap=cmap1)
-plt.legend(loc='center', bbox_to_anchor=(0.5, -0.35), ncol=2, title="Mode of Transport")
+plt.legend(loc='center', bbox_to_anchor=(0.5, -0.35), ncol=3, title="Mode of Transport")
 # plt.title('Travelled Time with Public Transport')
-plt.ylabel('Travelled Time [PAX-h/d]')
+plt.ylabel('Traveled Time [PAX h/d]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
 plt.savefig(svg_path('plots/areaplot_time_', act_ver), bbox_inches="tight")
 plt.savefig(pdf_path('plots/areaplot_time_', act_ver), bbox_inches="tight")
@@ -142,7 +142,7 @@ df_transp_cases = df_cases.drop(['Walk/Bike', 'Aerial Tram']).transpose()
 # save areaplot for cases
 
 df_transp_cases.plot.area(cmap=cmap1)
-plt.legend(loc='center', bbox_to_anchor=(0.5, -0.35), ncol=2, title="Mode of Transport")
+plt.legend(loc='center', bbox_to_anchor=(0.5, -0.35), ncol=3, title="Mode of Transport")
 #  plt.title('Transport Cases with Public Transport')
 plt.ylabel('Transport Cases [PAX/d]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
