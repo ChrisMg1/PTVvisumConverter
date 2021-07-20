@@ -85,7 +85,7 @@ def boardings_plot(out_f, color_f):
     # plt.legend(loc='center', bbox_to_anchor=(0.5, -0.5), ncol=3)
     plt.legend(loc='upper right', ncol=3)
     
-    ax2.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.2)
+    ax2.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
     
     fig = ax2.get_figure()
     fig.set_size_inches(8, 5, forward=True)
@@ -103,12 +103,12 @@ boardings_plot('barplot_boardings_grey', 'grey')
 fig2, ax3 = plt.subplots()
 df['GEH'].hist(bins=50, ax=ax3, label=r'$\sqrt{\frac{2(model-count)^2}{model+count}}$')
 #plt.title('Deviation of Counted and Modelled Boardings')
-plt.ylabel('Frequency')
+plt.ylabel('Frequency (Total = 1082)')
 plt.xlabel('GEH-weighted Deviation')
 
 #ax3.legend(loc='upper right')
 ax3.legend(loc='center', bbox_to_anchor=(0.5, -0.25))
-ax3.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.2)
+ax3.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
 
 fig2 = ax3.get_figure()
 fig2.set_size_inches(8, 5, forward=True)
@@ -120,16 +120,17 @@ fig2.clf()
 
 abs_limit = max(df["Deviation"].max(), abs(df["Deviation"].min()))
 fig3, ax4 = plt.subplots()
-fig3.set_size_inches(8, 5, forward=True)
-df['Deviation'].hist(bins=50, ax=ax4, range=(-abs_limit,abs_limit), label='model - count')
+#fig3.set_size_inches(8, 5, forward=True)
+df['Deviation'].hist(bins=100, ax=ax4, label='model - count', range=(-abs_limit/4,abs_limit/4))
 
 ax4.legend(loc='upper right')
 #ax4.legend(loc='center', bbox_to_anchor=(0.5, -0.25))
 
 #plt.title('Deviation of Counted and Modelled Boardings')
-plt.ylabel('Frequency')
+plt.ylabel('Frequency (Total = 1082)')
 plt.xlabel('Absolute Deviation [PAX]')
-plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.2)
+plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
+
 
 fig3 = ax4.get_figure()
 
@@ -145,8 +146,9 @@ fig2, ax3 = plt.subplots()
 df['Calibration Count'].hist(bins=50, ax=ax3)
 fig2 = ax3.get_figure()
 #plt.title('Empirical Data')
-plt.ylabel('Frequency')
+plt.ylabel('Frequency (Total = 1082)')
 plt.xlabel('SPNV Counts')
+plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
 fig2.savefig('plots/histogram_SPNV_counts.pdf', bbox_inches='tight')
 fig2.savefig('plots/histogram_SPNV_counts.svg', bbox_inches='tight')
 plt.clf()
@@ -156,5 +158,7 @@ fig2.clf()
 print(df.nlargest(10,'Calibration Count')[['NAME', 'Calibration Count']])
 print(df.nsmallest(10,'Calibration Count')[['NAME', 'Calibration Count']])
 #print(df[df['Calibration Count'] == ''].index)
+
+print(df['GEH'])
 
 # newer 2p2
