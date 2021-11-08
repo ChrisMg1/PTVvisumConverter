@@ -18,38 +18,34 @@ def create_qgis_line(df_in, path):
         df_2write['TOZONE\YCOORD'].astype(str) + \
         ')'
     # print(df_2write.head())
-    df_2write.to_csv(path  + 'test.csv', sep ='\t', index=False, quoting=csv.QUOTE_NONE)
+    df_2write.to_csv(path  + 'test2.csv', sep ='\t', index=False, quoting=csv.QUOTE_NONE)
     return None
 
 cmPLOT = False
 in_path = 'C:/Users/chris/Documents/LVM_geoprocessing/Nachfrage_aus_Visum/cm_LVM_OD_time_demand_filtered_geq1.att'
 out_path = 'C:/Users/chris/Documents/LVM_geoprocessing/Nachfrage_aus_Visum/'
 
-df = attribut2dataframe(in_path, False).rename(columns={"$ODPAIR:FROMZONENO": "FROMZONENO"})
+df = attribut2dataframe(in_path, False).rename(columns={'$ODPAIR:FROMZONENO': 'FROMZONENO'})
 
 # add cloumn for beeline speed
 df['beeline_speed'] = ( 60 * df['DIRECTDIST'] / df['MATVALUE(309)'])
 
-
-print(df[['MATVALUE(309)']])
-print(df[['MATVALUE(116)']])
-
-
 # add cloumn for ratio PrT-speed and PuT-speed
 df['speed_ratio'] = ( df['MATVALUE(309)'] / df['MATVALUE(116)'] )
 
-# filter demand greater than 300 (total)
-df = df[df['MATVALUE(10000)'] >= 300]
+# filter df
+#df = df[ (df['MATVALUE(10000)'] >= 1) ]
+        
+#df = df[ (df['speed_ratio'] >= 1.5) ]
 
-# filter 'slow' PuT connections
-df = df[df['speed_ratio'] >= 1.5]
+#df = df[ (df['DIRECTDIST'] >= 250) ]
 
-# filter minimum distance
-df = df[df['DIRECTDIST'] >= 10]
 
 if (cmPLOT):
     ax1 = df.plot.scatter(x='DIRECTDIST', y='beeline_speed', c='DarkBlue')
 
+
+print(df)
 
 create_qgis_line(df, out_path)
 
