@@ -5,10 +5,10 @@ Created on Fri Apr  2 17:11:07 2021
 @author: chris
 """
 
-from main import attribut2dataframe, GEH # , cmap1
+from main import attribut2dataframe, GEH, roundup # , cmap1
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd
+# import pandas as pd
 
 path = 'C:/Users/chris/proj-lvm_files/EinsteigerVSySDiff2.att'
 
@@ -47,6 +47,7 @@ df['SPNV'] = df['Regional Train'] + df['Commuter Train']
 
 # todo: GEH value
 df['Deviation'] = df['SPNV'] - df['Calibration Count']
+df['rel_Deviation'] = ( ( df['SPNV'] - df['Calibration Count'] ) / df['Calibration Count'] ) * 100
 df['GEH'] = GEH(df['SPNV'], df['Calibration Count'])
 
 
@@ -85,7 +86,7 @@ def boardings_plot(out_f, color_f):
     # plt.legend(loc='center', bbox_to_anchor=(0.5, -0.5), ncol=3)
     plt.legend(loc='upper right', ncol=3)
     
-    ax2.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
+    ax2.grid(visible=True, which='major', color='#666666', linestyle=':', alpha=0.6)
     
     fig = ax2.get_figure()
     fig.set_size_inches(8, 5, forward=True)
@@ -100,28 +101,36 @@ boardings_plot('barplot_boardings_white', 'white')
 boardings_plot('barplot_boardings_grey', 'grey')
 
 
+## Plot GEH-WEIGHTED deviation between counts and model
+
 fig2, ax3 = plt.subplots()
-df['GEH'].hist(bins=50, ax=ax3, label=r'$\sqrt{\frac{2(model-count)^2}{model+count}}$')
+
+binwidth = 5
+df['GEH'].hist(bins=range(0, roundup(max(df['GEH']), binwidth) + binwidth, binwidth), ax=ax3, label=r'$\sqrt{\frac{2(model-count)^2}{model+count}}$')
 #plt.title('Deviation of Counted and Modelled Boardings')
 plt.ylabel('Frequency (Total = 1082)')
 plt.xlabel('GEH-weighted Deviation')
 
-#ax3.legend(loc='upper right')
-ax3.legend(loc='center', bbox_to_anchor=(0.5, -0.25))
-ax3.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
+ax3.legend(loc='upper right')
+# ax3.legend(loc='center', bbox_to_anchor=(0.5, -0.25))
+ax3.grid(visible=True, which='major', color='#666666', linestyle=':', alpha=0.6)
 
 fig2 = ax3.get_figure()
-fig2.set_size_inches(8, 5, forward=True)
+# fig2.set_size_inches(8, 5, forward=True)
 fig2.savefig('plots/histogram_GEH.pdf', bbox_inches='tight')
 fig2.savefig('plots/histogram_GEH.svg', bbox_inches='tight')
 plt.clf()
 fig2.clf()
 
 
+
+## Plot ABSOLUTE deviation between counts and model
+
+# set range for symmetrc plot
 abs_limit = max(df["Deviation"].max(), abs(df["Deviation"].min()))
 fig3, ax4 = plt.subplots()
 #fig3.set_size_inches(8, 5, forward=True)
-df['Deviation'].hist(bins=100, ax=ax4, label='model - count', range=(-abs_limit/4,abs_limit/4))
+df['Deviation'].hist(bins=100, ax=ax4, label=r'$model - count$')#, range=(-abs_limit/4,abs_limit/4))
 
 ax4.legend(loc='upper right')
 #ax4.legend(loc='center', bbox_to_anchor=(0.5, -0.25))
@@ -129,7 +138,7 @@ ax4.legend(loc='upper right')
 #plt.title('Deviation of Counted and Modelled Boardings')
 plt.ylabel('Frequency (Total = 1082)')
 plt.xlabel('Absolute Deviation [PAX]')
-plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
+plt.grid(visible=True, which='major', color='#666666', linestyle=':', alpha=0.6)
 
 
 fig3 = ax4.get_figure()
@@ -140,6 +149,32 @@ plt.clf()
 fig3.clf()
 
 
+
+## Plot RELATIVE deviation between counts and model
+
+# set range for symmetrc plot
+
+fig4, ax5 = plt.subplots()
+#fig4.set_size_inches(8, 5, forward=True)
+df['rel_Deviation'].hist(bins=100, ax=ax5, label=r'$\frac{model-count}{count}$')
+
+ax5.legend(loc='upper right')
+#ax4.legend(loc='center', bbox_to_anchor=(0.5, -0.25))
+
+#plt.title('Relative Deviation of Counted and Modelled Boardings')
+plt.ylabel('Frequency (Total = 1082)')
+plt.xlabel('Relative Deviation [%]')
+plt.grid(visible=True, which='major', color='#666666', linestyle=':', alpha=0.6)
+
+
+fig4 = ax5.get_figure()
+
+fig4.savefig('plots/histogram_rel_deviation.pdf', bbox_inches='tight')
+fig4.savefig('plots/histogram_rel_deviation.svg', bbox_inches='tight')
+plt.clf()
+fig4.clf()
+
+
 ### control stuff
 
 fig2, ax3 = plt.subplots()
@@ -148,17 +183,17 @@ fig2 = ax3.get_figure()
 #plt.title('Empirical Data')
 plt.ylabel('Frequency (Total = 1082)')
 plt.xlabel('SPNV Counts')
-plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
+plt.grid(visible=True, which='major', color='#666666', linestyle=':', alpha=0.6)
 fig2.savefig('plots/histogram_SPNV_counts.pdf', bbox_inches='tight')
 fig2.savefig('plots/histogram_SPNV_counts.svg', bbox_inches='tight')
 plt.clf()
 fig2.clf()
 
-#print(df.nlargest(10,'GEH')[['NAME', 'GEH']])
-print(df.nlargest(10,'Calibration Count')[['NAME', 'Calibration Count']])
-print(df.nsmallest(10,'Calibration Count')[['NAME', 'Calibration Count']])
-#print(df[df['Calibration Count'] == ''].index)
 
-print(df['GEH'])
+print(df.nlargest(20,'GEH')[['NAME', 'GEH', 'Calibration Count', 'SPNV']])
+print(df.nsmallest(200,'GEH')[['NAME', 'GEH', 'Calibration Count', 'SPNV']])
 
-# newer 2p2
+#print(df.nlargest(20,'rel_Deviation')[['NAME', 'rel_Deviation', 'Calibration Count', 'SPNV']])
+#print(df.nsmallest(20,'rel_Deviation')[['NAME', 'rel_Deviation', 'Calibration Count', 'SPNV']])
+
+print(df)

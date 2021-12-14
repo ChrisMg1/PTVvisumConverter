@@ -3,3 +3,4 @@
 test.py
 *.pdf
 *.svg
+__pycache__/main.cpython-39.pyc

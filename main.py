@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from matplotlib import cm
+import math
 
 def att_path(loc_name, version):
     return loc_name + version + '.att'
@@ -17,6 +18,8 @@ def attribut2dataframe(attfile, myindex):
     # print(attfile)
     return ret_att
 
+def roundup(x, to_lvl):
+    return int(math.ceil(x / to_lvl)) * to_lvl
 
 def removeDoubleTimetable(timeDF):
     find_doubles = timeDF.duplicated(subset=['DEP','LINENAME','DIRECTIONCODE'], keep='first')
