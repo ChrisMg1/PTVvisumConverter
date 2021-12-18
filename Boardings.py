@@ -18,7 +18,6 @@ df_temp_count = df[['NAME', 'NEU_EINST_N14']]
 
 df = df[df['B_BAYERN']==1]
 
-
 print(len(df_temp_count))
 
 print(df_temp_count['NEU_EINST_N14'].isna().sum())

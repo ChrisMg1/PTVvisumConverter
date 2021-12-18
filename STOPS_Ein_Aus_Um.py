@@ -23,6 +23,12 @@ df3 = df3[df3['CM_UAM'] == 1]
 hbf_aliases = {'Ingolstadt Hbf.': 'Ingolstadt Hbf', 'Augsburg, Hauptbahnhof': 'Augsburg Hbf'}
 df3.rename(index=hbf_aliases, inplace=True)
 
+plot_lang = 'eng' # 'deu'
+if plot_lang == 'eng':
+    hbf_aliases = {'München Hbf': 'Munich Central', 'München-Moosach': 'Munich Moosach', 'München, Studentenstadt': 'Munich StuSta', 'Würzburg Hauptbahnhof': 'Würzburg Central', 'Nürnberg Hbf': 'Nuremberg Central', 'Augsburg Hbf': 'Augsburg Central', 'Ulm Hbf': 'Ulm Central', 'München Flughafen': 'Munich Airport'}
+    df3.rename(index=hbf_aliases, inplace=True)
+    
+
 
 # select columns for sub dataframes
 col_transfer_all   = ['UMSTEIGERGES_AP__CM11M000_' + act_ver.upper(), 'UMSTEIGERGES_AP__CM11M050_' + act_ver.upper(), 'UMSTEIGERGES_AP__CM11M100_' + act_ver.upper(), 'UMSTEIGERGES_AP__CM11M150_' + act_ver.upper(), 'UMSTEIGERGES_AP__CM11M250_' + act_ver.upper(), 'UMSTEIGERGES_AP__CM11M500_' + act_ver.upper()]
@@ -55,6 +61,17 @@ df_board_ice = df_board_ice.sort_values(by='0', ascending=False)
 df_board_uam = df_board_uam.sort_values(by='0', ascending=False)
 df_board_rb = df_board_rb.sort_values(by='0', ascending=False)
 
+# Remove all but top stations
+
+only_top = True
+legend_title = 'Stations with UAM connection'
+
+if only_top:
+    df_transfer_all = df_transfer_all.nlargest(8, '0')
+    df_board_ice = df_board_ice.nlargest(8, '0')
+    df_board_uam = df_board_uam.nlargest(8, '0')
+    df_board_rb = df_board_rb.nlargest(8, '0')
+    cm_legend_title = 'Stations with UAM connection (Top 8 Transfer Stations)'
 
 
 # transpose the df's to get right format to plot
@@ -66,8 +83,8 @@ df_transfer_all_transp.plot(marker='.', linestyle='dashed')
 # plt.title('Total Transfers')
 plt.ylabel('Total Transfers [PAX/day]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
-plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
-plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=4, title="Stations with UAM connection")
+plt.grid(visible=True, which='major', color='#666666', linestyle=':', alpha=0.6)
+plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=4, title=cm_legend_title)
 plt.savefig(svg_path('plots/lineplot_TRANSFER_', act_ver), bbox_inches="tight")
 plt.savefig(pdf_path('plots/lineplot_TRANSFER_', act_ver), bbox_inches="tight")
 plt.clf()
@@ -80,8 +97,8 @@ df_board_uam_transp.plot(marker='.', linestyle='dashed')
 # plt.title('UAM Boardings')
 plt.ylabel('UAM Boarding [PAX/day]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
-plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
-plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=4, title="Stations with UAM connection")
+plt.grid(visible=True, which='major', color='#666666', linestyle=':', alpha=0.6)
+plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=4, title=cm_legend_title)
 plt.savefig(svg_path('plots/lineplot_UAMboard_', act_ver), bbox_inches="tight")
 plt.savefig(pdf_path('plots/lineplot_UAMboard_', act_ver), bbox_inches="tight")
 plt.clf()
@@ -94,8 +111,8 @@ df_board_ice_transp.plot(marker='.', linestyle='dashed')
 # plt.title('ICE/IC Boardings')
 plt.ylabel('ICE/IC Boarding [PAX/day]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
-plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
-plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=4, title="Stations with UAM connection")
+plt.grid(visible=True, which='major', color='#666666', linestyle=':', alpha=0.6)
+plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=4, title=cm_legend_title)
 plt.savefig(svg_path('plots/lineplot_ICEboard_', act_ver), bbox_inches="tight")
 plt.savefig(pdf_path('plots/lineplot_ICEboard_', act_ver), bbox_inches="tight")
 plt.clf()
@@ -108,14 +125,14 @@ df_board_rb_transp.plot(marker='.', linestyle='dashed')
 # plt.title('RE/RB Boardings')
 plt.ylabel('RE/RB Boarding [PAX/day]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
-plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
-plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=4, title="Stations with UAM connection")
+plt.grid(visible=True, which='major', color='#666666', linestyle=':', alpha=0.6)
+plt.legend(loc='upper center', bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=4, title=cm_legend_title)
 plt.savefig(svg_path('plots/lineplot_RBboard_', act_ver), bbox_inches="tight")
 plt.savefig(pdf_path('plots/lineplot_RBboard_', act_ver), bbox_inches="tight")
 plt.clf()
 
-print(df_board_ice_transp)
-print(df_board_ice)
-print(df_board_ice.columns)
-print(df_board_ice['0'])
+#print(df_board_ice_transp)
+#print(df_board_ice)
+#print(df_board_ice.columns)
+#print(df_board_ice['0'])
 

@@ -37,17 +37,21 @@ df.sort_values(by='0', ascending=False, inplace=True, kind='quicksort', na_posit
 box_cols = ['0', '50', '100', '150', '250', '500']
 
 
-#print(df.columns)
+# Boxplots for PAX on Links
+cutOutliers = True
 
 df.boxplot(column = box_cols, whis=(0, 100))
 # plt.title('Price-sensitive Occupancy of Drone Connections') # not in paper!
 plt.ylabel('Passengers on UAM Links [PAX/d]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
-plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
+plt.grid(visible=True, which='major', color='#666666', linestyle=':', alpha=0.6)
 
 # Line repr. maximum capacity
 plt.axhline(y = UAMcap4, color = 'r', linestyle = '-', label = '4-seater')
 plt.axhline(y = UAMcap7, color = 'b', linestyle = '-', label = '7-seater')
+
+if cutOutliers:
+    plt.ylim(0, 4500)
 
 plt.legend(loc='upper right', title='Maximum Capacity [PAX/d]')#, bbox_to_anchor=[0.5, -0.15], fancybox=True, shadow=False, ncol=4)
 
@@ -73,7 +77,7 @@ df.boxplot(column = new_box_cols, whis=(0, 100) )
 # plt.title('Price-sensitive Occupancy of Drone Connections')
 plt.ylabel('Passengers on UAM Links [PAX/d]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
-plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
+plt.grid(visible=True, which='major', color='#666666', linestyle=':', alpha=0.6)
 plt.ylim(0, UAMcap7 * 1.3)
 
 # don't plot solange nicht fertig
@@ -130,7 +134,7 @@ if type == 'max':
 # plt.title('Price-sensitive Occupancy of Drone Connections') # Title in Paper, not in plot
 plt.ylabel('Passengers on UAM Links [PAX/d]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
-plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
+plt.grid(visible=True, which='major', color='#666666', linestyle=':', alpha=0.6)
 
 # Legend only on first plot (same colors with limited access)
 if type == 'real':
@@ -150,7 +154,7 @@ plt.axvline(x=300, color='r', linestyle='dashed', linewidth=2, label = 'Max. UAM
 plt.legend(loc='upper right')
 plt.ylabel('Frequency (Total = 150)')
 plt.xlabel('Length [km]')
-plt.grid(b=True, which='major', color='#666666', linestyle=':', alpha=0.6)
+plt.grid(visible=True, which='major', color='#666666', linestyle=':', alpha=0.6)
 plt.savefig(svg_path('plots/histogram_UAMlen_', act_ver), bbox_inches="tight")
 plt.savefig(pdf_path('plots/histogram_UAMlen_', act_ver), bbox_inches="tight")
 plt.clf()
