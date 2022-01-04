@@ -8,7 +8,7 @@ Created on Tue Oct  5 20:26:31 2021
 from main import attribut2dataframe
 import csv
 
-def create_qgis_line(df_in, path):
+def create_qgisEXP_WITHline(df_in, path):
     df_2write = df_in
     df_2write['wkt_geom'] = \
         'linestring(' + \
@@ -18,7 +18,12 @@ def create_qgis_line(df_in, path):
         df_2write['TOZONE\YCOORD'].astype(str) + \
         ')'
     # print(df_2write.head())
-    df_2write.to_csv(path  + 'test3.csv', sep ='\t', index=False, quoting=csv.QUOTE_NONE)
+    df_2write.to_csv(path  + 'test4.csv', sep ='\t', index=False, quoting=csv.QUOTE_NONE)
+    return None
+
+def create_qgisEXP(df_in, path):
+    df_2write = df_in
+    df_2write.to_csv(path  + 'test4.csv', sep ='\t', index=False, quoting=csv.QUOTE_NONE)
     return None
 
 cmPLOT = False
@@ -28,7 +33,7 @@ out_path = 'C:/Users/chris/Documents/LVM_geoprocessing/Nachfrage_aus_Visum/'
 df = attribut2dataframe(in_path, False).rename(columns={'$ODPAIR:FROMZONENO': 'FROMZONENO'})
 
 # add cloumn for beeline speed
-df['beeline_speed'] = ( 60 * df['DIRECTDIST'] / df['MATVALUE(309)'])
+df['beeline_speed_PuT'] = ( 60 * df['DIRECTDIST'] / df['MATVALUE(309)'])
 
 # add cloumn for ratio PrT-speed and PuT-speed
 df['speed_ratio'] = ( df['MATVALUE(309)'] / df['MATVALUE(116)'] )
@@ -42,13 +47,13 @@ df['speed_ratio'] = ( df['MATVALUE(309)'] / df['MATVALUE(116)'] )
 
 
 if (cmPLOT):
-    ax1 = df.plot.scatter(x='DIRECTDIST', y='beeline_speed', c='DarkBlue')
+    ax1 = df.plot.scatter(x='DIRECTDIST', y='beeline_speed_PuT', c='DarkBlue')
 
 
 print(df)
 
-create_qgis_line(df, out_path)
-
+# create_qgisEXP_WITHline(df, out_path)
+create_qgisEXP(df, out_path)
 
 
 # linestring(1285265.5213820108 6122740.40263463,1278514.250982746 6122695.812399528)
