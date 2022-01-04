@@ -18,7 +18,7 @@ def create_qgis_line(df_in, path):
         df_2write['TOZONE\YCOORD'].astype(str) + \
         ')'
     # print(df_2write.head())
-    df_2write.to_csv(path  + 'test2.csv', sep ='\t', index=False, quoting=csv.QUOTE_NONE)
+    df_2write.to_csv(path  + 'test3.csv', sep ='\t', index=False, quoting=csv.QUOTE_NONE)
     return None
 
 cmPLOT = False

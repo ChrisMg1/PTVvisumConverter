@@ -14,7 +14,7 @@ def svg_path(loc_name, version):
 
 def attribut2dataframe(attfile, myindex):
     ret_att = pd.read_csv(attfile, skiprows=findFirstLine(attfile), sep=';', 
-                          encoding='ansi', index_col=myindex)
+                          encoding='utf8', index_col=myindex)
     # print(attfile)
     return ret_att
 
