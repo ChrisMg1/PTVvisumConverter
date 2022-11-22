@@ -117,8 +117,8 @@ plt.legend(loc='center', bbox_to_anchor=(0.5, -0.35), ncol=3, title="Mode of Tra
 # plt.title('Travelled Distance with Public Transport')
 plt.ylabel('Traveled Distance [PAX km/d]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
-plt.savefig(svg_path('plots/areaplot_dist_', act_ver), bbox_inches="tight")
-plt.savefig(pdf_path('plots/areaplot_dist_', act_ver), bbox_inches="tight")
+plt.savefig(svg_path('C:/Users/chris/plots/areaplot_dist_', act_ver), bbox_inches="tight")
+plt.savefig(pdf_path('C:/Users/chris/plots/areaplot_dist_', act_ver), bbox_inches="tight")
 plt.clf()
 
 
@@ -131,8 +131,8 @@ plt.legend(loc='center', bbox_to_anchor=(0.5, -0.35), ncol=3, title="Mode of Tra
 # plt.title('Travelled Time with Public Transport')
 plt.ylabel('Traveled Time [PAX h/d]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
-plt.savefig(svg_path('plots/areaplot_time_', act_ver), bbox_inches="tight")
-plt.savefig(pdf_path('plots/areaplot_time_', act_ver), bbox_inches="tight")
+plt.savefig(svg_path('C:/Users/chris/plots/areaplot_time_', act_ver), bbox_inches="tight")
+plt.savefig(pdf_path('C:/Users/chris/plots/areaplot_time_', act_ver), bbox_inches="tight")
 plt.clf()
 
 
@@ -146,6 +146,6 @@ plt.legend(loc='center', bbox_to_anchor=(0.5, -0.35), ncol=3, title="Mode of Tra
 #  plt.title('Transport Cases with Public Transport')
 plt.ylabel('Transport Cases [PAX/d]')
 plt.xlabel('Added Fixed Costs to UAM Fare [€]')
-plt.savefig(svg_path('plots/areaplot_cases_', act_ver), bbox_inches="tight")
-plt.savefig(pdf_path('plots/areaplot_cases_', act_ver), bbox_inches="tight")
+plt.savefig(svg_path('C:/Users/chris/plots/areaplot_cases_', act_ver), bbox_inches="tight")
+plt.savefig(pdf_path('C:/Users/chris/plots/areaplot_cases_', act_ver), bbox_inches="tight")
 plt.clf()
